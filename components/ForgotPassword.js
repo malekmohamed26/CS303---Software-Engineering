@@ -3,7 +3,7 @@ import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, View, Text, TouchableOpacity, TextInput, Image, Alert } from 'react-native';
 import React, { useState } from 'react';
 import { getAuth, updatePassword,fetchSignInMethodsForEmail } from 'firebase/auth';
-import auth from '../firebase'
+import {auth , db}from '../firebase';
 
 export default function ChangePassword() {
     const [email, setEmail] = useState('');
