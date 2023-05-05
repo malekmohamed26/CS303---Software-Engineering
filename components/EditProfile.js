@@ -1,45 +1,85 @@
-import React, { useState } from "react";
+import { useEffect, useState } from "react";
+import { StatusBar } from "expo-status-bar";
 import {
   StyleSheet,
   Text,
   View,
+  Platform,
   TouchableOpacity,
   ImageBackground,
   TextInput,
-  Alert,
+  alert,
+  Pressable,
 } from "react-native";
-import { doc, getDoc } from "firebase/firestore";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
-import myImage from "../images/test.png";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
+import DateTimePicker from "@react-native-community/datetimepicker";
 import Feather from "react-native-vector-icons/Feather";
+import * as ImagePicker from "expo-image-picker";
 import { useTheme } from "react-native-paper";
 import BottomSheet from "reanimated-bottom-sheet";
 import Animated from "react-native-reanimated";
-import { auth, db } from "../firebase";
-//import ImageCropPicker from 'react-native-image-crop-picker';
-
-const getUser = async () => {
-  const docRef = doc(db, "user", auth.currentUser.uid);
-  const docSnap = await getDoc(docRef);
-
-  if (docSnap.exists()) {
-    console.log("Document data:", docSnap.data());
-  } else {
-    // docSnap.data() will be undefined in this case
-    console.log("No such document!");
-  }
-};
 
 export default function EditProfile(navigation) {
   const { colors } = useTheme();
+  const [image, setImage] = useState(null);
+  const [dateOfBirth, setDateOfBirth] = useState("");
+
+  const [formReady, setFormReady] = useState(false);
+
+  const [date, setDate] = useState(new Date());
+  const [showPicker, setShowPicker] = useState(false);
+
+  const toggleDatepicker = () => {
+    setShowPicker(!showPicker);
+  };
+  const onChange = ({ type }, selectedDate) => {
+    if (type == "set") {
+      const currentDate = selectedDate;
+      setDate(currentDate);
+      if (Platform.OS === "android") {
+        toggleDatepicker();
+      }
+    } else {
+      toggleDatepicker();
+      setDateOfBirth(currentDate.toDateString());
+    }
+  };
+  const confirmIOSDate = () => {
+    setDateOfBirth(date.toDateString());
+    toggleDatepicker();
+  };
+
+  /*const onSubmit = () => {
+   alert(`${dateOfBirth}`);
+  };*/
+
+  useEffect(() => {
+    setFormReady(dateOfBirth);
+    return () => {
+      setFormReady(false);
+    };
+  }, [dateOfBirth]);
+
+  const pickImage = async () => {
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+    });
+
+    if (!result.cancelled) {
+      setImage(result.uri);
+    }
+  };
 
   return (
     <View style={styles.container}>
       <View style={{ margin: 20 }}>
         <View style={{ alignItems: "center" }}>
           <Text style={{ fontSize: 16, fontWeight: "bold" }}>Edit Profile</Text>
-          <TouchableOpacity onPress={() => {}}>
+          <TouchableOpacity onPress={pickImage}>
             <View
               style={{
                 height: 100,
@@ -49,7 +89,7 @@ export default function EditProfile(navigation) {
                 alignItems: "center",
               }}
             >
-              <ImageBackground source={myImage} style={styles.bookImage}>
+              <ImageBackground source={{ uri: image }} style={styles.bookImage}>
                 <View
                   style={{
                     flex: 1,
@@ -97,13 +137,62 @@ export default function EditProfile(navigation) {
           />
         </View>
         <View style={styles.action}>
-          <TextInput
-            placeholder="Birth day"
-            placeholderTextColor="#666666"
-            autoCorrect={false}
-            style={styles.textInput}
-          />
+          {showPicker && (
+            <DateTimePicker
+              mode="calender"
+              display="spinner"
+              value={date}
+              onChange={onChange}
+              style={styles.datePicker}
+            />
+          )}
+          {showPicker && Platform.OS === "ios" && (
+            <View
+              style={{ flexDirection: "row", justifyContent: "space-around" }}
+            >
+              <TouchableOpacity
+                style={[
+                  styles.button,
+                  styles.pickerButton,
+                  { backgroundColor: "#666666" },
+                ]}
+                onPress={toggleDatepicker}
+              >
+                <Text style={[styles.buttonText, { color: "#666666" }]}>
+                  Cancel
+                </Text>
+              </TouchableOpacity>
+
+              <TouchableOpacity
+                style={[
+                  styles.button,
+                  styles.pickerButton,
+                  { backgroundColor: "#666666" },
+                ]}
+                onPress={confirmIOSDate}
+              >
+                <Text style={[styles.buttonText, { color: "#666666" }]}>
+                  Confirm
+                </Text>
+              </TouchableOpacity>
+            </View>
+          )}
+
+          {!showPicker && (
+            <Pressable onPress={toggleDatepicker}>
+              <TextInput
+                style={styles.textInput}
+                placeholder=" Date : Sat Aug 21 2004 "
+                placeholderTextColor="#666666"
+                value={dateOfBirth}
+                onChangeText={setDateOfBirth}
+                editable={false}
+                onPressIn={toggleDatepicker}
+              />
+            </Pressable>
+          )}
         </View>
+
         <View style={styles.action}>
           <FontAwesome name="phone" color={colors.text} size={20} />
           <TextInput
@@ -212,5 +301,18 @@ const styles = StyleSheet.create({
     marginTop: 0,
     paddingLeft: 10,
     color: "black",
+  },
+  datePicker: {
+    height: 120,
+    marginTop: -10,
+  },
+  pickerButton: {
+    paddingHorizontal: 20,
+  },
+
+  buttonText: {
+    fontSize: 14,
+    fontWeight: "500",
+    color: "#fff",
   },
 });
