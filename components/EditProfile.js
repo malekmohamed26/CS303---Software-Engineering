@@ -11,24 +11,35 @@ import {
   alert,
   Pressable,
 } from "react-native";
-import Icon from "react-native-vector-icons/MaterialCommunityIcons";
+//import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
+import Icon from "react-native-vector-icons/FontAwesome5";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import Feather from "react-native-vector-icons/Feather";
 import * as ImagePicker from "expo-image-picker";
 import { useTheme } from "react-native-paper";
 import BottomSheet from "reanimated-bottom-sheet";
 import Animated from "react-native-reanimated";
+import { getAuth, signOut } from "firebase/auth";
 
-export default function EditProfile(navigation) {
+export default function EditProfile({ navigation }) {
   const { colors } = useTheme();
   const [image, setImage] = useState(null);
   const [dateOfBirth, setDateOfBirth] = useState("");
-
+  const auth = getAuth();
   const [formReady, setFormReady] = useState(false);
 
   const [date, setDate] = useState(new Date());
   const [showPicker, setShowPicker] = useState(false);
+const handleSignOut = async () => {
+    try {
+      await signOut(auth);
+      console.log('logged out');
+      navigation.navigate('Home');
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   const toggleDatepicker = () => {
     setShowPicker(!showPicker);
@@ -76,9 +87,25 @@ export default function EditProfile(navigation) {
 
   return (
     <View style={styles.container}>
+       <View style={styles.my_profile_bar}>
+        <TouchableOpacity
+         onPress={handleSignOut}
+        >
+          <Icon name="power-off" size={20} color={"#a84221"} />
+        </TouchableOpacity>
+        <Text style={{ fontSize: 20, fontWeight: "bold" }}>Edit profile</Text>
+
+        <TouchableOpacity
+          onPress={() => {
+            navigation.navigate("Profile");
+          }}
+        >
+          <Icon name="chevron-right" size={20} color={"#a84221"} />
+        </TouchableOpacity>
+      </View>
       <View style={{ margin: 20 }}>
         <View style={{ alignItems: "center" }}>
-          <Text style={{ fontSize: 16, fontWeight: "bold" }}>Edit Profile</Text>
+         
           <TouchableOpacity onPress={pickImage}>
             <View
               style={{
@@ -180,6 +207,7 @@ export default function EditProfile(navigation) {
 
           {!showPicker && (
             <Pressable onPress={toggleDatepicker}>
+              
               <TextInput
                 style={styles.textInput}
                 placeholder=" Date : Sat Aug 21 2004 "
@@ -221,17 +249,9 @@ export default function EditProfile(navigation) {
             style={styles.textInput}
           />
         </View>
-        <View style={styles.action}>
-          <Icon name="map-marker-outline" color={colors.text} size={20} />
-          <TextInput
-            placeholder="city"
-            placeholderTextColor="#666666"
-            autoCorrect={false}
-            style={styles.textInput}
-          />
-        </View>
+        
         <TouchableOpacity style={styles.commandButton} onPress={() => {}}>
-          <Text style={styles.panelButtonTitle}> Submit</Text>
+          <Text style={styles.panelButtonTitle}> Save </Text>
         </TouchableOpacity>
       </View>
     </View>
@@ -241,7 +261,18 @@ export default function EditProfile(navigation) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#f0e3e0",
+    backgroundColor:"#f0e3e0",
+   
+  },
+  my_profile_bar: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    borderBottomWidth: 1,
+    borderBottomColor: "#a84221",
+    paddingTop: 40,
+    paddingBottom: 10,
+    paddingHorizontal: 15,
   },
   bookImage: {
     width: 100,
@@ -251,18 +282,20 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   commandButton: {
-    padding: 15,
-    borderRadius: 10,
-    backgroundColor: "#FF6347",
+    backgroundColor: "gray",
+    paddingHorizontal: 40,
+    paddingVertical: 10,
+    borderRadius: 20,
+    marginTop: 20,
     alignItems: "center",
-    marginTop: 10,
+    justifyContent: "center",
   },
   panel: {
     padding: 20,
     backgroundColor: "#FFFFFF",
     paddingTop: 20,
+    
   },
-
   panelTitle: {
     fontSize: 27,
     height: 35,
@@ -285,6 +318,7 @@ const styles = StyleSheet.create({
     fontSize: 17,
     fontWeight: "bold",
     color: "white",
+    alignItems: "center",
   },
 
   action: {

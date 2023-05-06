@@ -5,10 +5,12 @@ import Login from "./components/Login";
 import SignUp from "./components/Register";
 import Home from "./components/Home";
 import ForgotPassword from "./components/ForgotPassword";
+import ChangePassword from "./components/ChangePassword";
 import BookItems from "./components/BookHomePage";
 import EditProfile from "./components/EditProfile";
 import Profile from "./components/Profile";
 import kotob from "./kotob";
+
 
 const Stack = createNativeStackNavigator();
 
@@ -21,7 +23,7 @@ export default function App() {
       //   gestureDirection: "horizontal",
       // }}
       >
-        {/* <Stack.Screen
+        <Stack.Screen
           name="Home"
           component={Home}
           options={{ headerShown: false }}
@@ -35,7 +37,7 @@ export default function App() {
           name="SignUp"
           component={SignUp}
           options={{ headerShown: false }}
-        /> */}
+  /> 
         <Stack.Screen
           name="Profile"
           component={Profile}
@@ -43,7 +45,7 @@ export default function App() {
         />
         <Stack.Screen name="BookHomePage" options={{ headerShown: false }}>
           {() => <BookItems data={kotob} />}
-        </Stack.Screen>
+       </Stack.Screen>
 
         <Stack.Screen
           name="EditProfile"
@@ -53,6 +55,11 @@ export default function App() {
         <Stack.Screen
           name="ForgotPassword"
           component={ForgotPassword}
+          options={{ headerShown: false }}
+        />
+         <Stack.Screen
+          name="ChangePassword"
+          component={ChangePassword}
           options={{ headerShown: false }}
         />
       </Stack.Navigator>

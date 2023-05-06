@@ -10,6 +10,7 @@ import {
   SafeAreaView,
 } from "react-native";
 import myImage from "../images/test1.png";
+
 import {
   Caption,
   IconButton,
@@ -20,18 +21,37 @@ import Icon from "react-native-vector-icons/FontAwesome5";
 import FontAwesomeIcon from "react-native-vector-icons/FontAwesome";
 import MaterialIcon from "react-native-vector-icons/MaterialIcons";
 import * as Font from "expo-font";
+import icon from "react-native-vector-icons/MaterialCommunityIcons";
+import { getAuth, signOut } from "firebase/auth";
 
 export default function Profile({ navigation }) {
+  const auth = getAuth();
+  const handleSignOut = async () => {
+    try {
+      await signOut(auth);
+      console.log('logged out');
+      navigation.navigate('Home');
+    } catch (error) {
+      console.error(error);
+    }
+  };
   return (
     <View style={styles.container}>
       <View style={styles.my_profile_bar}>
+      <TouchableOpacity
+         onPress={handleSignOut}
+        >
+          <Icon name="power-off" size={20} color={"#a84221"} />
+        </TouchableOpacity>
+        
         <Text style={styles.my_profile_text}>My profile</Text>
+
         <TouchableOpacity
           onPress={() => {
             navigation.navigate("BookHomePage");
           }}
         >
-          <Icon name="chevron-right" size={30} color={"#a84221"} />
+          <Icon name="chevron-right" size={20} color={"#a84221"} />
         </TouchableOpacity>
       </View>
       <View style={styles.profile_interface}>
@@ -58,10 +78,11 @@ export default function Profile({ navigation }) {
               @malek26
             </Caption>
           </View>
+
           <Icon
             name="user-edit"
-            size={30}
-            color={"#a84221"}
+            size={20}
+            color={"#777777"}
             onPress={() => {
               navigation.navigate("EditProfile");
             }}
@@ -72,38 +93,53 @@ export default function Profile({ navigation }) {
           <View style={styles.user_detail_item}>
             <Icon
               name="envelope"
-              size={30}
-              color={"#a84221"}
+              size={20}
+              color={"black"}
               style={styles.icon}
             />
-            <Text>malekmohamed234@gmail.com</Text>
+            <Text
+              style={{
+                color: "#777777",
+              }}
+            >
+              malekmohamed234@gmail.com
+            </Text>
           </View>
           <View style={styles.user_detail_item}>
             <MaterialIcon
               name="location-pin"
-              size={30}
-              color={"#a84221"}
+              size={20}
+              color={"black"}
               style={styles.icon}
             />
-            <Text>Cairo, Egypt</Text>
+            <Text
+              style={{
+                color: "#777777",
+              }}
+            >
+              Cairo, Egypt
+            </Text>
           </View>
           <View style={styles.user_detail_item}>
             <Icon
               name="calendar"
-              size={30}
-              color={"#a84221"}
+              size={20}
+              color={"black"}
               style={styles.icon}
             />
-            <Text>26 of June, 2000</Text>
+            <Text  style={{
+                color: "#777777",
+              }}>26 of June, 2000</Text>
           </View>
           <View style={styles.user_detail_item}>
-            <Icon
-              name="mobile-alt"
-              size={30}
-              color={"#a84221"}
-              style={styles.icon}
-            />
-            <Text>01011302148</Text>
+            <Icon name="phone" size={20} color={"black"} style={styles.icon} />
+            <Text
+              style={{
+                color: "#777777",
+              }}
+            >
+              01011302148
+            </Text>
           </View>
         </View>
       </View>
@@ -112,38 +148,59 @@ export default function Profile({ navigation }) {
       items are CLICKABLE */}
       <View style={styles.user_preferences}>
         <View style={styles.user_detail_item}>
-          <FontAwesomeIcon
+          <FontAwesomeIcon 
             name="heart-o"
-            size={30}
-            color={"#a84221"}
+            size={20}
+            color={"black"}
+            onPress={() => {
+              navigation.navigate("");
+            }}
             style={styles.icon}
           />
-          <Text>Favourites</Text>
+          <Text
+            style={{
+              color: "#777777",
+            }}
+          >
+            Favorites
+          </Text>
         </View>
         <View style={styles.user_detail_item}>
           <FontAwesomeIcon
             name="lock"
-            size={30}
-            color={"#a84221"}
+            size={20}
+            color={"black"}
+            onPress={() => {
+              navigation.navigate("ChangePassword");
+            }}
             style={styles.icon}
           />
-          <Text>Change Password</Text>
+          <Text
+            style={{
+              color: "#777777",
+            }}
+          >
+            Change Password
+          </Text>
         </View>
         <View style={styles.user_detail_item}>
           <Icon
             name="dollar-sign"
-            size={30}
-            color={"#a84221"}
+            size={20}
+            color={"black"}
+            onPress={() => {
+              navigation.navigate("");
+            }}
             style={styles.icon}
           />
-          <Text>Payment Settings</Text>
+          <Text
+            style={{
+              color: "#777777",
+            }}
+          >
+            Payment Settings
+          </Text>
         </View>
-      </View>
-      <View style={styles.logout}>
-        <TouchableOpacity>
-          <Icon name="power-off" size={30} color={"#ff0000"} />
-          <Text style={{ fontSize: 20, color: "#ff0000" }}>Log out</Text>
-        </TouchableOpacity>
       </View>
     </View>
   );
@@ -180,6 +237,8 @@ const styles = StyleSheet.create({
     width: 110,
     height: 110,
     borderRadius: 55,
+    paddingBottom : 55,
+    paddingHorizontal:55
   },
   name_container: {
     justifyContent: "center",
@@ -200,17 +259,23 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     paddingVertical: 15,
+    color: "#777777",
   },
   icon: {
     paddingRight: "4%",
   },
   user_preferences: {
     margin: 10,
-    borderBottomWidth: 1,
-    borderBottomColor: "#a8422180",
+    flexDirection: "column",
+    paddingTop: 15,
+    paddingHorizontal: 15,
   },
   logout: {
-    margin: 10,
     flexDirection: "row",
+    alignItems: "center",
+    paddingVertical: 15,
+    flexDirection: "column",
+    paddingTop: 15,
+    paddingHorizontal: 15,
   },
 });
