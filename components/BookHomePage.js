@@ -1,9 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, Image, StyleSheet, FlatList } from "react-native";
+import { View, Text, Image, StyleSheet, FlatList,TouchableOpacity } from "react-native";
 import { Card, Button, Icon } from "react-native-elements";
 import * as Font from "expo-font";
-
+import { useNavigation } from '@react-navigation/native';
 const BookHomePage = ({ kotob }) => {
+  const navigation = useNavigation();
+  const [cartItems, setCartItems] = useState([]);
+  const cartCount = cartItems.length;
   const [fontLoaded, setFontLoaded] = useState(false);
   useEffect(() => {
     async function loadFont() {
@@ -20,6 +23,7 @@ const BookHomePage = ({ kotob }) => {
     return null;
   }
   return (
+    <TouchableOpacity onPress={() => navigation.navigate('BookDetail', { kotob })}>
     <Card containerStyle={styles.cardContainer}>
       <Card.Image source={kotob.image} style={styles.cardImage} />
       <Card.Title style={styles.cardTitle}>{kotob.title}</Card.Title>
@@ -38,7 +42,12 @@ const BookHomePage = ({ kotob }) => {
           containerStyle={styles.cardButtonContainer}
           buttonStyle={styles.cardButtonStyle}
           titleStyle={styles.cardButtonTitle}
-          onPress={() => console.log("Added to cart")}
+          onPress={() => {
+            setCartItems([...cartItems, kotob]);
+            console.log("Added to cart");
+        }}
+        title={` (${cartCount})`}
+        
         />
         <Button
           type="outline"
@@ -50,12 +59,13 @@ const BookHomePage = ({ kotob }) => {
         />
       </View>
     </Card>
+    </TouchableOpacity>
   );
 };
 
 const renderItem = ({ item }) => <BookHomePage kotob={item} />;
 
-const BookItems = ({ data }) => {
+const BookItems = ({ navigation , data }) => {
   return (
     <View style={styles.container}>
       <Text style={styles.header}>What do you like to read today?</Text>

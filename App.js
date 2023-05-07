@@ -8,6 +8,10 @@ import ForgotPassword from "./components/ForgotPassword";
 import BookItems from "./components/BookHomePage";
 import EditProfile from "./components/EditProfile";
 import Profile from "./components/Profile";
+import ShippingInfoPage from "./components/ShippingInfo";
+import payment from "./components/payment";
+import DeliveryConfirmationPage from "./components/DeliveryConfirmationPage"
+import BookDetail from "./components/BookDetail";
 import kotob from "./kotob";
 
 const Stack = createNativeStackNavigator();
@@ -16,10 +20,10 @@ export default function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator
-      // screenOptions={{
-      //   gestureEnabled: true,
-      //   gestureDirection: "horizontal",
-      // }}
+      screenOptions={{
+         gestureEnabled: true,
+         gestureDirection: "horizontal",
+       }}
       >
         {/* <Stack.Screen
           name="Home"
@@ -35,7 +39,7 @@ export default function App() {
           name="SignUp"
           component={SignUp}
           options={{ headerShown: false }}
-        /> */}
+        /> 
         <Stack.Screen
           name="Profile"
           component={Profile}
@@ -54,7 +58,31 @@ export default function App() {
           name="ForgotPassword"
           component={ForgotPassword}
           options={{ headerShown: false }}
+        />  */}
+        {/* { <Stack.Screen
+          name="ShippingInfoPage"
+          component={ShippingInfoPage}
+          options={{ headerShown: false }}
+        /> } */}
+           {/* <Stack.Screen
+          name="payment"
+          component={payment}
+          options={{ headerShown: false }}
         />
+          <Stack.Screen
+          name="DeliveryConfirmationPage"
+          component={DeliveryConfirmationPage}
+          options={{ headerShown: false }}
+        />  */}
+         <Stack.Screen name="BookHomePage" options={{ headerShown: false }}>
+          {() => <BookItems data={kotob} />}
+        </Stack.Screen>
+
+        <Stack.Screen
+          name="BookDetail"
+          component={BookDetail}
+          options={{ headerShown: false }}
+        /> 
       </Stack.Navigator>
     </NavigationContainer>
   );
