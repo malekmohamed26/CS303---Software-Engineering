@@ -5,6 +5,7 @@ import Login from "./components/Login";
 import SignUp from "./components/Register";
 import Home from "./components/Home";
 import ForgotPassword from "./components/ForgotPassword";
+import ChangePassword from "./components/ChangePassword";
 import BookItems from "./components/BookHomePage";
 import EditProfile from "./components/EditProfile";
 import Profile from "./components/Profile";
@@ -13,6 +14,7 @@ import payment from "./components/payment";
 import DeliveryConfirmationPage from "./components/DeliveryConfirmationPage"
 import BookDetail from "./components/BookDetail";
 import kotob from "./kotob";
+
 
 const Stack = createNativeStackNavigator();
 
@@ -25,7 +27,7 @@ export default function App() {
          gestureDirection: "horizontal",
        }}
       >
-        {/* <Stack.Screen
+        <Stack.Screen
           name="Home"
           component={Home}
           options={{ headerShown: false }}
@@ -39,7 +41,11 @@ export default function App() {
           name="SignUp"
           component={SignUp}
           options={{ headerShown: false }}
+<<<<<<< HEAD
         /> 
+=======
+  /> 
+>>>>>>> 0f1a7ef48fbb4099a56b9744ddc1a77362a59ed0
         <Stack.Screen
           name="Profile"
           component={Profile}
@@ -47,7 +53,7 @@ export default function App() {
         />
         <Stack.Screen name="BookHomePage" options={{ headerShown: false }}>
           {() => <BookItems data={kotob} />}
-        </Stack.Screen>
+       </Stack.Screen>
 
         <Stack.Screen
           name="EditProfile"
@@ -69,6 +75,7 @@ export default function App() {
           component={payment}
           options={{ headerShown: false }}
         />
+<<<<<<< HEAD
           <Stack.Screen
           name="DeliveryConfirmationPage"
           component={DeliveryConfirmationPage}
@@ -83,6 +90,13 @@ export default function App() {
           component={BookDetail}
           options={{ headerShown: false }}
         /> 
+=======
+         <Stack.Screen
+          name="ChangePassword"
+          component={ChangePassword}
+          options={{ headerShown: false }}
+        />
+>>>>>>> 0f1a7ef48fbb4099a56b9744ddc1a77362a59ed0
       </Stack.Navigator>
     </NavigationContainer>
   );

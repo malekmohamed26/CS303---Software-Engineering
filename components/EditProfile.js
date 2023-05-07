@@ -1,45 +1,112 @@
-import React, { useState } from "react";
+import { useEffect, useState } from "react";
+import { StatusBar } from "expo-status-bar";
 import {
   StyleSheet,
   Text,
   View,
+  Platform,
   TouchableOpacity,
   ImageBackground,
   TextInput,
-  Alert,
+  alert,
+  Pressable,
 } from "react-native";
-import { doc, getDoc } from "firebase/firestore";
-import Icon from "react-native-vector-icons/MaterialCommunityIcons";
-import myImage from "../images/test.png";
+//import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
+import Icon from "react-native-vector-icons/FontAwesome5";
+import DateTimePicker from "@react-native-community/datetimepicker";
 import Feather from "react-native-vector-icons/Feather";
+import * as ImagePicker from "expo-image-picker";
 import { useTheme } from "react-native-paper";
 import BottomSheet from "reanimated-bottom-sheet";
 import Animated from "react-native-reanimated";
-import { auth, db } from "../firebase";
-//import ImageCropPicker from 'react-native-image-crop-picker';
+import { getAuth, signOut } from "firebase/auth";
 
-const getUser = async () => {
-  const docRef = doc(db, "user", auth.currentUser.uid);
-  const docSnap = await getDoc(docRef);
-
-  if (docSnap.exists()) {
-    console.log("Document data:", docSnap.data());
-  } else {
-    // docSnap.data() will be undefined in this case
-    console.log("No such document!");
-  }
-};
-
-export default function EditProfile(navigation) {
+export default function EditProfile({ navigation }) {
   const { colors } = useTheme();
+  const [image, setImage] = useState(null);
+  const [dateOfBirth, setDateOfBirth] = useState("");
+  const auth = getAuth();
+  const [formReady, setFormReady] = useState(false);
+
+  const [date, setDate] = useState(new Date());
+  const [showPicker, setShowPicker] = useState(false);
+const handleSignOut = async () => {
+    try {
+      await signOut(auth);
+      console.log('logged out');
+      navigation.navigate('Home');
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const toggleDatepicker = () => {
+    setShowPicker(!showPicker);
+  };
+  const onChange = ({ type }, selectedDate) => {
+    if (type == "set") {
+      const currentDate = selectedDate;
+      setDate(currentDate);
+      if (Platform.OS === "android") {
+        toggleDatepicker();
+      }
+    } else {
+      toggleDatepicker();
+      setDateOfBirth(currentDate.toDateString());
+    }
+  };
+  const confirmIOSDate = () => {
+    setDateOfBirth(date.toDateString());
+    toggleDatepicker();
+  };
+
+  /*const onSubmit = () => {
+   alert(`${dateOfBirth}`);
+  };*/
+
+  useEffect(() => {
+    setFormReady(dateOfBirth);
+    return () => {
+      setFormReady(false);
+    };
+  }, [dateOfBirth]);
+
+  const pickImage = async () => {
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+    });
+
+    if (!result.cancelled) {
+      setImage(result.uri);
+    }
+  };
 
   return (
     <View style={styles.container}>
+       <View style={styles.my_profile_bar}>
+        <TouchableOpacity
+         onPress={handleSignOut}
+        >
+          <Icon name="power-off" size={20} color={"#a84221"} />
+        </TouchableOpacity>
+        <Text style={{ fontSize: 20, fontWeight: "bold" }}>Edit profile</Text>
+
+        <TouchableOpacity
+          onPress={() => {
+            navigation.navigate("Profile");
+          }}
+        >
+          <Icon name="chevron-right" size={20} color={"#a84221"} />
+        </TouchableOpacity>
+      </View>
       <View style={{ margin: 20 }}>
         <View style={{ alignItems: "center" }}>
-          <Text style={{ fontSize: 16, fontWeight: "bold" }}>Edit Profile</Text>
-          <TouchableOpacity onPress={() => {}}>
+         
+          <TouchableOpacity onPress={pickImage}>
             <View
               style={{
                 height: 100,
@@ -49,7 +116,7 @@ export default function EditProfile(navigation) {
                 alignItems: "center",
               }}
             >
-              <ImageBackground source={myImage} style={styles.bookImage}>
+              <ImageBackground source={{ uri: image }} style={styles.bookImage}>
                 <View
                   style={{
                     flex: 1,
@@ -97,13 +164,63 @@ export default function EditProfile(navigation) {
           />
         </View>
         <View style={styles.action}>
-          <TextInput
-            placeholder="Birth day"
-            placeholderTextColor="#666666"
-            autoCorrect={false}
-            style={styles.textInput}
-          />
+          {showPicker && (
+            <DateTimePicker
+              mode="calender"
+              display="spinner"
+              value={date}
+              onChange={onChange}
+              style={styles.datePicker}
+            />
+          )}
+          {showPicker && Platform.OS === "ios" && (
+            <View
+              style={{ flexDirection: "row", justifyContent: "space-around" }}
+            >
+              <TouchableOpacity
+                style={[
+                  styles.button,
+                  styles.pickerButton,
+                  { backgroundColor: "#666666" },
+                ]}
+                onPress={toggleDatepicker}
+              >
+                <Text style={[styles.buttonText, { color: "#666666" }]}>
+                  Cancel
+                </Text>
+              </TouchableOpacity>
+
+              <TouchableOpacity
+                style={[
+                  styles.button,
+                  styles.pickerButton,
+                  { backgroundColor: "#666666" },
+                ]}
+                onPress={confirmIOSDate}
+              >
+                <Text style={[styles.buttonText, { color: "#666666" }]}>
+                  Confirm
+                </Text>
+              </TouchableOpacity>
+            </View>
+          )}
+
+          {!showPicker && (
+            <Pressable onPress={toggleDatepicker}>
+              
+              <TextInput
+                style={styles.textInput}
+                placeholder=" Date : Sat Aug 21 2004 "
+                placeholderTextColor="#666666"
+                value={dateOfBirth}
+                onChangeText={setDateOfBirth}
+                editable={false}
+                onPressIn={toggleDatepicker}
+              />
+            </Pressable>
+          )}
         </View>
+
         <View style={styles.action}>
           <FontAwesome name="phone" color={colors.text} size={20} />
           <TextInput
@@ -132,17 +249,9 @@ export default function EditProfile(navigation) {
             style={styles.textInput}
           />
         </View>
-        <View style={styles.action}>
-          <Icon name="map-marker-outline" color={colors.text} size={20} />
-          <TextInput
-            placeholder="city"
-            placeholderTextColor="#666666"
-            autoCorrect={false}
-            style={styles.textInput}
-          />
-        </View>
+        
         <TouchableOpacity style={styles.commandButton} onPress={() => {}}>
-          <Text style={styles.panelButtonTitle}> Submit</Text>
+          <Text style={styles.panelButtonTitle}> Save </Text>
         </TouchableOpacity>
       </View>
     </View>
@@ -152,7 +261,18 @@ export default function EditProfile(navigation) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#f0e3e0",
+    backgroundColor:"#f0e3e0",
+   
+  },
+  my_profile_bar: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    borderBottomWidth: 1,
+    borderBottomColor: "#a84221",
+    paddingTop: 40,
+    paddingBottom: 10,
+    paddingHorizontal: 15,
   },
   bookImage: {
     width: 100,
@@ -162,18 +282,20 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   commandButton: {
-    padding: 15,
-    borderRadius: 10,
-    backgroundColor: "#FF6347",
+    backgroundColor: "gray",
+    paddingHorizontal: 40,
+    paddingVertical: 10,
+    borderRadius: 20,
+    marginTop: 20,
     alignItems: "center",
-    marginTop: 10,
+    justifyContent: "center",
   },
   panel: {
     padding: 20,
     backgroundColor: "#FFFFFF",
     paddingTop: 20,
+    
   },
-
   panelTitle: {
     fontSize: 27,
     height: 35,
@@ -196,6 +318,7 @@ const styles = StyleSheet.create({
     fontSize: 17,
     fontWeight: "bold",
     color: "white",
+    alignItems: "center",
   },
 
   action: {
@@ -212,5 +335,18 @@ const styles = StyleSheet.create({
     marginTop: 0,
     paddingLeft: 10,
     color: "black",
+  },
+  datePicker: {
+    height: 120,
+    marginTop: -10,
+  },
+  pickerButton: {
+    paddingHorizontal: 20,
+  },
+
+  buttonText: {
+    fontSize: 14,
+    fontWeight: "500",
+    color: "#fff",
   },
 });
