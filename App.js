@@ -11,10 +11,10 @@ import EditProfile from "./components/EditProfile";
 import Profile from "./components/Profile";
 import ShippingInfoPage from "./components/ShippingInfo";
 import payment from "./components/payment";
-import DeliveryConfirmationPage from "./components/DeliveryConfirmationPage"
+import DeliveryConfirmationPage from "./components/DeliveryConfirmationPage";
 import BookDetail from "./components/BookDetail";
 import kotob from "./kotob";
-
+import Navbar from "./components/Navbar";
 
 const Stack = createNativeStackNavigator();
 
@@ -22,10 +22,10 @@ export default function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator
-      screenOptions={{
-         gestureEnabled: true,
-         gestureDirection: "horizontal",
-       }}
+        screenOptions={{
+          gestureEnabled: true,
+          gestureDirection: "horizontal",
+        }}
       >
         <Stack.Screen
           name="Home"
@@ -84,20 +84,10 @@ export default function App() {
           name="DeliveryConfirmationPage"
           component={DeliveryConfirmationPage}
           options={{ headerShown: false }}
-        />  */}
-         <Stack.Screen name="BookHomePage" options={{ headerShown: false }}>
-          {() => <BookItems data={kotob} />}
-        </Stack.Screen>
-
+        />
         <Stack.Screen
-          name="BookDetail"
-          component={BookDetail}
-          options={{ headerShown: false }}
-        /> 
-=======
-         <Stack.Screen
-          name="ChangePassword"
-          component={ChangePassword}
+          name="Navbar"
+          component={Navbar}
           options={{ headerShown: false }}
         />
       </Stack.Navigator>
@@ -108,8 +98,8 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f0e3e0',
-    alignItems: 'center',
-    justifyContent: 'center',
+    backgroundColor: "#f0e3e0",
+    alignItems: "center",
+    justifyContent: "center",
   },
 });
