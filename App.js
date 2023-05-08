@@ -1,19 +1,20 @@
-import { StyleSheet, Text, View } from 'react-native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { NavigationContainer } from '@react-navigation/native';
-import Login from './components/Login';
-import SignUp from './components/Register';
-import Home from './components/Home';
-import ForgotPassword from './components/ForgotPassword';
-import ChangePassword from './components/ChangePassword';
-import BookItems from './components/BookHomePage';
-import EditProfile from './components/EditProfile';
-import Profile from './components/Profile';
-import ShippingInfoPage from './components/ShippingInfo';
-import payment from './components/payment';
-import DeliveryConfirmationPage from './components/DeliveryConfirmationPage';
-import BookDetail from './components/BookDetail';
-import kotob from './kotob';
+import { StyleSheet, Text, View } from "react-native";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { NavigationContainer } from "@react-navigation/native";
+import Login from "./components/Login";
+import SignUp from "./components/Register";
+import Home from "./components/Home";
+import ForgotPassword from "./components/ForgotPassword";
+import ChangePassword from "./components/ChangePassword";
+import BookItems from "./components/BookHomePage";
+import EditProfile from "./components/EditProfile";
+import Profile from "./components/Profile";
+import ShippingInfoPage from "./components/ShippingInfo";
+import payment from "./components/payment";
+import DeliveryConfirmationPage from "./components/DeliveryConfirmationPage"
+import BookDetail from "./components/BookDetail";
+import kotob from "./kotob";
+
 
 const Stack = createNativeStackNavigator();
 
@@ -21,12 +22,10 @@ export default function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator
-        //first page to show on run
-        initialRouteName="EditProfile"
-        screenOptions={{
-          gestureEnabled: true,
-          gestureDirection: 'horizontal',
-        }}
+      screenOptions={{
+         gestureEnabled: true,
+         gestureDirection: "horizontal",
+       }}
       >
         <Stack.Screen
           name="Home"
@@ -84,6 +83,21 @@ export default function App() {
         <Stack.Screen
           name="DeliveryConfirmationPage"
           component={DeliveryConfirmationPage}
+          options={{ headerShown: false }}
+        />  */}
+         <Stack.Screen name="BookHomePage" options={{ headerShown: false }}>
+          {() => <BookItems data={kotob} />}
+        </Stack.Screen>
+
+        <Stack.Screen
+          name="BookDetail"
+          component={BookDetail}
+          options={{ headerShown: false }}
+        /> 
+=======
+         <Stack.Screen
+          name="ChangePassword"
+          component={ChangePassword}
           options={{ headerShown: false }}
         />
       </Stack.Navigator>

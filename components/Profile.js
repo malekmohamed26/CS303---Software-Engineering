@@ -24,7 +24,8 @@ import * as Font from 'expo-font';
 import icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { getAuth, signOut } from 'firebase/auth';
 import { auth, db } from '../firebase';
-import { doc, getDoc } from 'firebase/firestore';
+import { doc, getDoc } from 'firebase/firestore';import Navbar from "./Navbar";
+
 export default function Profile({ navigation }) {
   // add the use state to store profile data in it
   const [name, setName] = useState('');
@@ -53,11 +54,23 @@ export default function Profile({ navigation }) {
   };
 
   //const auth = getAuth(); // de 5alt el mafrod auth tegy mn mlf firebase
+  const handleFavoritePress = () => {
+    navigation.navigate("Favorite");
+  };
+  const handleHomePress = () => {
+    navigation.navigate("BookHomePage");
+  };
+  const handleSearchPress = () => {
+    navigation.navigate("Search");
+  };
+  const handleProfilePress = () => {
+    navigation.navigate("Profile");
+  };
   const handleSignOut = async () => {
     try {
       await signOut(auth);
-      console.log('logged out');
-      navigation.navigate('Home');
+      console.log("logged out");
+      navigation.navigate("Home");
     } catch (error) {
       console.error(error);
     }
@@ -65,6 +78,10 @@ export default function Profile({ navigation }) {
 
   return (
     <View style={styles.container}>
+      <Navbar onButtonPress={handleFavoritePress} />
+      <Navbar onButtonPress={handleHomePress} />
+      <Navbar onButtonPress={handleSearchPress} />
+      <Navbar onButtonPress={handleProfilePress} />
       <View style={styles.my_profile_bar}>
         <TouchableOpacity onPress={handleSignOut}>
           <Icon name="power-off" size={20} color={'#a84221'} />
