@@ -1,8 +1,17 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, Image, StyleSheet, FlatList,TouchableOpacity } from "react-native";
+import {
+  View,
+  Text,
+  Image,
+  StyleSheet,
+  FlatList,
+  TouchableOpacity,
+} from "react-native";
 import { Card, Button, Icon } from "react-native-elements";
 import * as Font from "expo-font";
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation } from "@react-navigation/native";
+import Navbar from "./Navbar";
+
 const BookHomePage = ({ kotob }) => {
   const navigation = useNavigation();
   const [cartItems, setCartItems] = useState([]);
@@ -23,49 +32,62 @@ const BookHomePage = ({ kotob }) => {
     return null;
   }
   return (
-    <TouchableOpacity onPress={() => navigation.navigate('BookDetail', { kotob })}>
-    <Card containerStyle={styles.cardContainer}>
-      <Card.Image source={kotob.image} style={styles.cardImage} />
-      <Card.Title style={styles.cardTitle}>{kotob.title}</Card.Title>
-      <Card.Divider />
-      <View>
-        <Text style={styles.cardText}>{kotob.author}</Text>
-        <Text style={styles.cardText}>{kotob.description}</Text>
-        <Text style={styles.cardText}>${kotob.price.toFixed(2)}</Text>
-      </View>
-      <View style={styles.cardButtonsContainer}>
-        <Button
-          type="outline"
-          icon={
-            <Icon name="shopping-cart" type="font-awesome" color="#a84221" />
-          }
-          containerStyle={styles.cardButtonContainer}
-          buttonStyle={styles.cardButtonStyle}
-          titleStyle={styles.cardButtonTitle}
-          onPress={() => {
-            setCartItems([...cartItems, kotob]);
-            console.log("Added to cart");
-        }}
-        title={` (${cartCount})`}
-        
-        />
-        <Button
-          type="outline"
-          icon={<Icon name="heart" type="font-awesome" color="#a84221" />}
-          containerStyle={styles.cardButtonContainer}
-          buttonStyle={styles.cardButtonStyle}
-          titleStyle={styles.cardButtonTitle}
-          onPress={() => console.log("Added to favorites")}
-        />
-      </View>
-    </Card>
+    <TouchableOpacity
+      onPress={() => navigation.navigate("BookDetail", { kotob })}
+    >
+      <Card containerStyle={styles.cardContainer}>
+        <Card.Image source={kotob.image} style={styles.cardImage} />
+        <Card.Title style={styles.cardTitle}>{kotob.title}</Card.Title>
+        <Card.Divider />
+        <View>
+          <Text style={styles.cardText}>{kotob.author}</Text>
+          <Text style={styles.cardText}>{kotob.description}</Text>
+          <Text style={styles.cardText}>${kotob.price.toFixed(2)}</Text>
+        </View>
+        <View style={styles.cardButtonsContainer}>
+          <Button
+            type="outline"
+            icon={
+              <Icon name="shopping-cart" type="font-awesome" color="#a84221" />
+            }
+            containerStyle={styles.cardButtonContainer}
+            buttonStyle={styles.cardButtonStyle}
+            titleStyle={styles.cardButtonTitle}
+            onPress={() => {
+              setCartItems([...cartItems, kotob]);
+              console.log("Added to cart");
+            }}
+            title={` (${cartCount})`}
+          />
+          <Button
+            type="outline"
+            icon={<Icon name="heart" type="font-awesome" color="#a84221" />}
+            containerStyle={styles.cardButtonContainer}
+            buttonStyle={styles.cardButtonStyle}
+            titleStyle={styles.cardButtonTitle}
+            onPress={() => console.log("Added to favorites")}
+          />
+        </View>
+      </Card>
     </TouchableOpacity>
   );
 };
 
 const renderItem = ({ item }) => <BookHomePage kotob={item} />;
 
-const BookItems = ({ navigation , data }) => {
+const BookItems = ({ navigation, data }) => {
+  const handleFavoritePress = () => {
+    console.log("Function call from Navbar");
+  };
+  const handleHomePress = () => {
+    console.log("Function call from Navbar");
+  };
+  const handleSearchPress = () => {
+    console.log("Function call from Navbar");
+  };
+  const handleProfilePress = () => {
+    console.log("Function call from Navbar");
+  };
   return (
     <View style={styles.container}>
       <Text style={styles.header}>What do you like to read today?</Text>
@@ -75,6 +97,10 @@ const BookItems = ({ navigation , data }) => {
         keyExtractor={(item) => item.id.toString()}
         contentContainerStyle={styles.flatListContainer}
       />
+      <Navbar onButtonPress={handleFavoritePress} />
+      <Navbar onButtonPress={handleHomePress} />
+      <Navbar onButtonPress={handleSearchPress} />
+      <Navbar onButtonPress={handleProfilePress} />
     </View>
   );
 };

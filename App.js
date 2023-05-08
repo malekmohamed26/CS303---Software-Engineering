@@ -14,6 +14,7 @@ import payment from "./components/payment";
 import DeliveryConfirmationPage from "./components/DeliveryConfirmationPage";
 import BookDetail from "./components/BookDetail";
 import kotob from "./kotob";
+import Navbar from "./components/Navbar";
 
 const Stack = createNativeStackNavigator();
 
@@ -82,6 +83,11 @@ export default function App() {
         <Stack.Screen
           name="DeliveryConfirmationPage"
           component={DeliveryConfirmationPage}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="Navbar"
+          component={Navbar}
           options={{ headerShown: false }}
         />
       </Stack.Navigator>

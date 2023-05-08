@@ -1,14 +1,27 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, Image, StyleSheet, } from 'react-native';
+import { View, Text, Image, StyleSheet } from "react-native";
 import { Card, Button, Icon } from "react-native-elements";
-
-
 import * as Font from "expo-font";
+import Navbar from "./Navbar";
+
 const BookDetail = ({ route }) => {
-const [cartItems, setCartItems] = useState([]);
-const cartCount = cartItems.length;
+  const [cartItems, setCartItems] = useState([]);
+  const cartCount = cartItems.length;
   const { kotob } = route.params;
   const [fontLoaded, setFontLoaded] = useState(false);
+
+  const handleFavoritePress = () => {
+    navigation.navigate("Favorite");
+  };
+  const handleHomePress = () => {
+    navigation.navigate("BookHomePage");
+  };
+  const handleSearchPress = () => {
+    navigation.navigate("Search");
+  };
+  const handleProfilePress = () => {
+    navigation.navigate("Profile");
+  };
   useEffect(() => {
     async function loadFont() {
       await Font.loadAsync({
@@ -23,9 +36,13 @@ const cartCount = cartItems.length;
   if (!fontLoaded) {
     return null;
   }
-  
+
   return (
     <View style={styles.container}>
+      <Navbar onButtonPress={handleFavoritePress} />
+      <Navbar onButtonPress={handleHomePress} />
+      <Navbar onButtonPress={handleSearchPress} />
+      <Navbar onButtonPress={handleProfilePress} />
       <Image source={kotob.image} style={styles.image} />
       <View style={styles.detailsContainer}>
         <Text style={styles.title}>{kotob.title}</Text>
@@ -45,8 +62,8 @@ const cartCount = cartItems.length;
           onPress={() => {
             setCartItems([...cartItems, kotob]);
             console.log("Added to cart");
-        }}
-        title={` (${cartCount})`}
+          }}
+          title={` (${cartCount})`}
         />
         <Button
           type="outline"
@@ -58,47 +75,45 @@ const cartCount = cartItems.length;
         />
       </View>
     </View>
-    
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f0e3e0',
-    paddingTop:50,
+    backgroundColor: "#f0e3e0",
+    paddingTop: 50,
   },
   image: {
-   
     height: 500,
-    width: '100%',
-    resizeMode: 'cover',
+    width: "100%",
+    resizeMode: "cover",
   },
   detailsContainer: {
     padding: 20,
   },
   title: {
     fontSize: 24,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     marginBottom: 10,
-    color:'#a84221',
+    color: "#a84221",
     fontFamily: "my-custom-font",
   },
   author: {
     fontSize: 20,
     marginBottom: 10,
-    color:'#b89076'
+    color: "#b89076",
   },
   description: {
     fontSize: 18,
     marginBottom: 20,
-    color:'#7f604b',
-    fontWeight:"bold"
+    color: "#7f604b",
+    fontWeight: "bold",
   },
   price: {
     fontSize: 20,
-    fontWeight: 'bold',
-    color:'#54646a'
+    fontWeight: "bold",
+    color: "#54646a",
   },
   cardButtonsContainer: {
     flexDirection: "row",

@@ -23,27 +23,42 @@ import MaterialIcon from "react-native-vector-icons/MaterialIcons";
 import * as Font from "expo-font";
 import icon from "react-native-vector-icons/MaterialCommunityIcons";
 import { getAuth, signOut } from "firebase/auth";
+import Navbar from "./Navbar";
 
 export default function Profile({ navigation }) {
   const auth = getAuth();
+  const handleFavoritePress = () => {
+    navigation.navigate("Favorite");
+  };
+  const handleHomePress = () => {
+    navigation.navigate("BookHomePage");
+  };
+  const handleSearchPress = () => {
+    navigation.navigate("Search");
+  };
+  const handleProfilePress = () => {
+    navigation.navigate("Profile");
+  };
   const handleSignOut = async () => {
     try {
       await signOut(auth);
-      console.log('logged out');
-      navigation.navigate('Home');
+      console.log("logged out");
+      navigation.navigate("Home");
     } catch (error) {
       console.error(error);
     }
   };
   return (
     <View style={styles.container}>
+      <Navbar onButtonPress={handleFavoritePress} />
+      <Navbar onButtonPress={handleHomePress} />
+      <Navbar onButtonPress={handleSearchPress} />
+      <Navbar onButtonPress={handleProfilePress} />
       <View style={styles.my_profile_bar}>
-      <TouchableOpacity
-         onPress={handleSignOut}
-        >
+        <TouchableOpacity onPress={handleSignOut}>
           <Icon name="power-off" size={20} color={"#a84221"} />
         </TouchableOpacity>
-        
+
         <Text style={styles.my_profile_text}>My profile</Text>
 
         <TouchableOpacity
@@ -127,9 +142,13 @@ export default function Profile({ navigation }) {
               color={"black"}
               style={styles.icon}
             />
-            <Text  style={{
+            <Text
+              style={{
                 color: "#777777",
-              }}>26 of June, 2000</Text>
+              }}
+            >
+              26 of June, 2000
+            </Text>
           </View>
           <View style={styles.user_detail_item}>
             <Icon name="phone" size={20} color={"black"} style={styles.icon} />
@@ -148,7 +167,7 @@ export default function Profile({ navigation }) {
       items are CLICKABLE */}
       <View style={styles.user_preferences}>
         <View style={styles.user_detail_item}>
-          <FontAwesomeIcon 
+          <FontAwesomeIcon
             name="heart-o"
             size={20}
             color={"black"}
@@ -237,8 +256,8 @@ const styles = StyleSheet.create({
     width: 110,
     height: 110,
     borderRadius: 55,
-    paddingBottom : 55,
-    paddingHorizontal:55
+    paddingBottom: 55,
+    paddingHorizontal: 55,
   },
   name_container: {
     justifyContent: "center",
