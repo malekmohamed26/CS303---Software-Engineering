@@ -14,6 +14,7 @@ import payment from "./components/payment";
 import DeliveryConfirmationPage from "./components/DeliveryConfirmationPage";
 import BookDetail from "./components/BookDetail";
 import kotob from "./kotob";
+import CartPage from "./components/CartPage";
 import Navbar from "./components/Navbar";
 
 const Stack = createNativeStackNavigator();
@@ -27,7 +28,7 @@ export default function App() {
           gestureDirection: "horizontal",
         }}
       >
-        <Stack.Screen
+         {/* <Stack.Screen
           name="Home"
           component={Home}
           options={{ headerShown: false }}
@@ -41,7 +42,7 @@ export default function App() {
           name="SignUp"
           component={SignUp}
           options={{ headerShown: false }}
-        />
+        /> 
         <Stack.Screen
           name="Profile"
           component={Profile}
@@ -50,7 +51,11 @@ export default function App() {
         <Stack.Screen name="BookHomePage" options={{ headerShown: false }}>
           {() => <BookItems data={kotob} />}
         </Stack.Screen>
-        <Stack.Screen
+       <Stack.Screen
+          name="BookDetail"
+          component={BookDetail}
+          options={{ headerShown: false }}
+        />        <Stack.Screen
           name="BookDetail"
           component={BookDetail}
           options={{ headerShown: false }}
@@ -60,36 +65,61 @@ export default function App() {
           component={EditProfile}
           options={{ headerShown: false }}
         />
-        <Stack.Screen
+         <Stack.Screen
           name="ForgotPassword"
           component={ForgotPassword}
           options={{ headerShown: false }}
-        />
-        <Stack.Screen
+        />   
+          <Stack.Screen
           name="ChangePassword"
           component={ChangePassword}
           options={{ headerShown: false }}
-        />
+        /> 
         <Stack.Screen
           name="ShippingInfoPage"
           component={ShippingInfoPage}
           options={{ headerShown: false }}
-        />
-        <Stack.Screen
+        /> 
+           <Stack.Screen
           name="payment"
           component={payment}
           options={{ headerShown: false }}
         />
-        <Stack.Screen
+          <Stack.Screen
           name="DeliveryConfirmationPage"
           component={DeliveryConfirmationPage}
           options={{ headerShown: false }}
-        />
-        <Stack.Screen
-          name="Navbar"
-          component={Navbar}
+        />    */}
+       
+        <Stack.Screen name="BookHomePage" options={{ headerShown: false }}>
+          {() => <BookItems data={kotob} />}
+       </Stack.Screen>
+       <Stack.Screen
+          name="BookDetail"
+          component={BookDetail}
+          options={{ headerShown: false }}
+        /> 
+           <Stack.Screen
+          name="CartPage"
+          component={CartPage}
+          options={{ headerShown: false }}
+        /> 
+      <Stack.Screen
+          name="ShippingInfoPage"
+          component={ShippingInfoPage}
+          options={{ headerShown: false }}
+        /> 
+           <Stack.Screen
+          name="payment"
+          component={payment}
           options={{ headerShown: false }}
         />
+          <Stack.Screen
+          name="DeliveryConfirmationPage"
+          component={DeliveryConfirmationPage}
+          options={{ headerShown: false }}
+        />  
+      
       </Stack.Navigator>
     </NavigationContainer>
   );

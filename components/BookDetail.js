@@ -1,12 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, Image, StyleSheet } from "react-native";
-import { Card, Button, Icon } from "react-native-elements";
+import { View, Text, Image, StyleSheet } from 'react-native';
 import * as Font from "expo-font";
 import Navbar from "./Navbar";
 
 const BookDetail = ({ route }) => {
-  const [cartItems, setCartItems] = useState([]);
-  const cartCount = cartItems.length;
   const { kotob } = route.params;
   const [fontLoaded, setFontLoaded] = useState(false);
 
@@ -36,7 +33,6 @@ const BookDetail = ({ route }) => {
   if (!fontLoaded) {
     return null;
   }
-
   return (
     <View style={styles.container}>
       <Navbar onButtonPress={handleFavoritePress} />
