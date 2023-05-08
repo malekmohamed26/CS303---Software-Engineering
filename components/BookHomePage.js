@@ -43,7 +43,7 @@ const BookHomePage = ({ kotob }) => {
           buttonStyle={styles.cardButtonStyle}
           titleStyle={styles.cardButtonTitle}
           onPress={() => {
-            setCartItems([...cartItems, kotob]);
+            setCartItems([...cartItems, {id: kotob.id, author: kotob.author, title: kotob.title , price: kotob.price}]);
             console.log("Added to cart");
         }}
         title={` (${cartCount})`}
@@ -56,6 +56,15 @@ const BookHomePage = ({ kotob }) => {
           buttonStyle={styles.cardButtonStyle}
           titleStyle={styles.cardButtonTitle}
           onPress={() => console.log("Added to favorites")}
+        />
+        <Button
+          type="outline"
+          icon={<Icon name="shopping-cart" type="font-awesome" color="#a84221" />}
+          containerStyle={styles.cardButtonContainer}
+          buttonStyle={styles.cardButtonStyle}
+          titleStyle={styles.cardButtonTitle}
+          onPress={() => navigation.navigate('CartPage', {cartItems})}
+
         />
       </View>
     </Card>
@@ -80,6 +89,8 @@ const BookItems = ({ navigation , data }) => {
 };
 
 export default BookItems;
+
+
 
 const styles = StyleSheet.create({
   container: {

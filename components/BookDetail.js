@@ -1,12 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, Image, StyleSheet, } from 'react-native';
-import { Card, Button, Icon } from "react-native-elements";
-
-
+import { View, Text, Image, StyleSheet } from 'react-native';
 import * as Font from "expo-font";
 const BookDetail = ({ route }) => {
-const [cartItems, setCartItems] = useState([]);
-const cartCount = cartItems.length;
   const { kotob } = route.params;
   const [fontLoaded, setFontLoaded] = useState(false);
   useEffect(() => {
@@ -23,7 +18,6 @@ const cartCount = cartItems.length;
   if (!fontLoaded) {
     return null;
   }
-  
   return (
     <View style={styles.container}>
       <Image source={kotob.image} style={styles.image} />
@@ -33,32 +27,7 @@ const cartCount = cartItems.length;
         <Text style={styles.description}>{kotob.description}</Text>
         <Text style={styles.price}>${kotob.price.toFixed(2)}</Text>
       </View>
-      <View style={styles.cardButtonsContainer}>
-        <Button
-          type="outline"
-          icon={
-            <Icon name="shopping-cart" type="font-awesome" color="#a84221" />
-          }
-          containerStyle={styles.cardButtonContainer}
-          buttonStyle={styles.cardButtonStyle}
-          titleStyle={styles.cardButtonTitle}
-          onPress={() => {
-            setCartItems([...cartItems, kotob]);
-            console.log("Added to cart");
-        }}
-        title={` (${cartCount})`}
-        />
-        <Button
-          type="outline"
-          icon={<Icon name="heart" type="font-awesome" color="#a84221" />}
-          containerStyle={styles.cardButtonContainer}
-          buttonStyle={styles.cardButtonStyle}
-          titleStyle={styles.cardButtonTitle}
-          onPress={() => console.log("Added to favorites")}
-        />
-      </View>
     </View>
-    
   );
 };
 
@@ -92,31 +61,8 @@ const styles = StyleSheet.create({
   description: {
     fontSize: 18,
     marginBottom: 20,
-    color:'#7f604b',
-    fontWeight:"bold"
-  },
-  price: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    color:'#54646a'
-  },
-  cardButtonsContainer: {
-    flexDirection: "row",
-    justifyContent: "space-evenly",
-    marginTop: 10,
-  },
-  cardButtonContainer: {
-    width: 120,
-    marginRight: 10,
-  },
-  cardButtonStyle: {
-    borderWidth: 1,
-    borderColor: "#517fa4",
-  },
-  cardButtonTitle: {
-    color: "#517fa4",
-    fontSize: 14,
-    fontWeight: "bold",
+    color:'#7f604b'
+   
   },
 });
 

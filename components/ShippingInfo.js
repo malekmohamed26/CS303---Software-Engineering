@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, TextInput, TouchableOpacity, View, Picker } from 'react-native';
 import * as Font from "expo-font";
+import CartPage from './CartPage';
   
 const ShippingInfoPage = ({navigation}) => {
   const [name, setName] = useState('');
@@ -81,6 +82,7 @@ const handleSubmit = () => {
 
   return (
     <View style={styles.container}>
+      
       <Text style={styles.title}>Shipping Information</Text>
       <Text style={styles.section}>Personal Info</Text>
       <TextInput
@@ -157,6 +159,7 @@ const handleSubmit = () => {
       onPress={handleSubmit}
     >
         <Text style={styles.buttonText}>Continue</Text>
+       
       </TouchableOpacity>
     </View>
   );
