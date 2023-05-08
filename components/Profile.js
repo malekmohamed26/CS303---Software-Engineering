@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from 'react';
 import {
   StyleSheet,
   View,
@@ -8,24 +8,51 @@ import {
   Image,
   Alert,
   SafeAreaView,
-} from "react-native";
-import myImage from "../images/test1.png";
+} from 'react-native';
+import myImage from '../images/test1.png';
 
 import {
   Caption,
   IconButton,
   Title,
   TouchableRipple,
-} from "react-native-paper";
-import Icon from "react-native-vector-icons/FontAwesome5";
-import FontAwesomeIcon from "react-native-vector-icons/FontAwesome";
-import MaterialIcon from "react-native-vector-icons/MaterialIcons";
-import * as Font from "expo-font";
-import icon from "react-native-vector-icons/MaterialCommunityIcons";
-import { getAuth, signOut } from "firebase/auth";
-
+} from 'react-native-paper';
+import Icon from 'react-native-vector-icons/FontAwesome5';
+import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome';
+import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
+import * as Font from 'expo-font';
+import icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import { getAuth, signOut } from 'firebase/auth';
+import { auth, db } from '../firebase';
+import { doc, getDoc } from 'firebase/firestore';
 export default function Profile({ navigation }) {
-  const auth = getAuth();
+  // add the use state to store profile data in it
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [phone, setPhone] = useState('');
+  // use effect 3ashan ngeb el data awl ma el saf7a tfta7
+  useEffect(() => {
+    getUserData();
+  });
+  //function to get data of user from fire store
+  const getUserData = async () => {
+    // el mfrod user de esm el data we bdl el id dh ykon auth.cuurentUser.uid
+    const docRef = doc(db, 'user', 'rzXhp9Da6UOU9gLtZzAqfMP4GHp1');
+    const docSnap = await getDoc(docRef);
+    if (docSnap.exists()) {
+      const data = docSnap.data();
+      //n5zn el data fe el state
+      setEmail(data.email);
+      setName(data.name);
+      setPhone(data.phone);
+      
+    } else {
+      // docSnap.data() will be undefined in this case
+      console.log('No such document!');
+    }
+  };
+
+  //const auth = getAuth(); // de 5alt el mafrod auth tegy mn mlf firebase
   const handleSignOut = async () => {
     try {
       await signOut(auth);
@@ -35,23 +62,22 @@ export default function Profile({ navigation }) {
       console.error(error);
     }
   };
+
   return (
     <View style={styles.container}>
       <View style={styles.my_profile_bar}>
-      <TouchableOpacity
-         onPress={handleSignOut}
-        >
-          <Icon name="power-off" size={20} color={"#a84221"} />
+        <TouchableOpacity onPress={handleSignOut}>
+          <Icon name="power-off" size={20} color={'#a84221'} />
         </TouchableOpacity>
-        
+
         <Text style={styles.my_profile_text}>My profile</Text>
 
         <TouchableOpacity
           onPress={() => {
-            navigation.navigate("BookHomePage");
+            navigation.navigate('BookHomePage');
           }}
         >
-          <Icon name="chevron-right" size={20} color={"#a84221"} />
+          <Icon name="chevron-right" size={20} color={'#a84221'} />
         </TouchableOpacity>
       </View>
       <View style={styles.profile_interface}>
@@ -65,28 +91,28 @@ export default function Profile({ navigation }) {
                 paddingBottom: 10,
                 paddingLeft: 10,
                 fontSize: 20,
-                fontWeight: "bold",
-                fontFamily: "sans-serif",
-                textAlign: "left",
+                fontWeight: 'bold',
+                fontFamily: 'sans-serif',
+                textAlign: 'left',
               }}
             >
-              Malek Mohamed
+              {name}
             </Text>
             <Caption
-              style={{ textAlign: "left", paddingLeft: 10, fontSize: 15 }}
+              style={{ textAlign: 'left', paddingLeft: 10, fontSize: 15 }}
             >
-              @malek26
+              @{name}
             </Caption>
           </View>
 
           <Icon
             name="user-edit"
             size={20}
-            color={"#777777"}
+            color={'#777777'}
             onPress={() => {
-              navigation.navigate("EditProfile");
+              navigation.navigate('EditProfile');
             }}
-            style={{ alignSelf: "center", marginTop: -35 }}
+            style={{ alignSelf: 'center', marginTop: -35 }}
           />
         </View>
         <View style={styles.user_full_info_container}>
@@ -94,27 +120,27 @@ export default function Profile({ navigation }) {
             <Icon
               name="envelope"
               size={20}
-              color={"black"}
+              color={'black'}
               style={styles.icon}
             />
             <Text
               style={{
-                color: "#777777",
+                color: '#777777',
               }}
             >
-              malekmohamed234@gmail.com
+              {email}
             </Text>
           </View>
           <View style={styles.user_detail_item}>
             <MaterialIcon
               name="location-pin"
               size={20}
-              color={"black"}
+              color={'black'}
               style={styles.icon}
             />
             <Text
               style={{
-                color: "#777777",
+                color: '#777777',
               }}
             >
               Cairo, Egypt
@@ -124,21 +150,25 @@ export default function Profile({ navigation }) {
             <Icon
               name="calendar"
               size={20}
-              color={"black"}
+              color={'black'}
               style={styles.icon}
             />
-            <Text  style={{
-                color: "#777777",
-              }}>26 of June, 2000</Text>
-          </View>
-          <View style={styles.user_detail_item}>
-            <Icon name="phone" size={20} color={"black"} style={styles.icon} />
             <Text
               style={{
-                color: "#777777",
+                color: '#777777',
               }}
             >
-              01011302148
+              26 of June, 2000
+            </Text>
+          </View>
+          <View style={styles.user_detail_item}>
+            <Icon name="phone" size={20} color={'black'} style={styles.icon} />
+            <Text
+              style={{
+                color: '#777777',
+              }}
+            >
+              {phone}
             </Text>
           </View>
         </View>
@@ -148,18 +178,18 @@ export default function Profile({ navigation }) {
       items are CLICKABLE */}
       <View style={styles.user_preferences}>
         <View style={styles.user_detail_item}>
-          <FontAwesomeIcon 
+          <FontAwesomeIcon
             name="heart-o"
             size={20}
-            color={"black"}
+            color={'black'}
             onPress={() => {
-              navigation.navigate("");
+              navigation.navigate('');
             }}
             style={styles.icon}
           />
           <Text
             style={{
-              color: "#777777",
+              color: '#777777',
             }}
           >
             Favorites
@@ -169,15 +199,15 @@ export default function Profile({ navigation }) {
           <FontAwesomeIcon
             name="lock"
             size={20}
-            color={"black"}
+            color={'black'}
             onPress={() => {
-              navigation.navigate("ChangePassword");
+              navigation.navigate('ChangePassword');
             }}
             style={styles.icon}
           />
           <Text
             style={{
-              color: "#777777",
+              color: '#777777',
             }}
           >
             Change Password
@@ -187,15 +217,15 @@ export default function Profile({ navigation }) {
           <Icon
             name="dollar-sign"
             size={20}
-            color={"black"}
+            color={'black'}
             onPress={() => {
-              navigation.navigate("");
+              navigation.navigate('');
             }}
             style={styles.icon}
           />
           <Text
             style={{
-              color: "#777777",
+              color: '#777777',
             }}
           >
             Payment Settings
@@ -209,72 +239,72 @@ export default function Profile({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#f0e3e0",
+    backgroundColor: '#f0e3e0',
   },
   my_profile_bar: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
     borderBottomWidth: 1,
-    borderBottomColor: "#a84221",
+    borderBottomColor: '#a84221',
     paddingTop: 40,
     paddingBottom: 10,
     paddingHorizontal: 15,
   },
   my_profile_text: {
     fontSize: 20,
-    fontWeight: "bold",
-    textAlign: "center",
+    fontWeight: 'bold',
+    textAlign: 'center',
     flex: 1,
   },
   profile_interface: {
     margin: 10,
     height: 410,
     borderBottomWidth: 1,
-    borderBottomColor: "#a8422180",
+    borderBottomColor: '#a8422180',
   },
   profile_image: {
     width: 110,
     height: 110,
     borderRadius: 55,
-    paddingBottom : 55,
-    paddingHorizontal:55
+    paddingBottom: 55,
+    paddingHorizontal: 55,
   },
   name_container: {
-    justifyContent: "center",
-    alignItems: "flex-start",
-    width: "60%",
+    justifyContent: 'center',
+    alignItems: 'flex-start',
+    width: '60%',
   },
   user_basic_info_container: {
-    flexDirection: "row",
-    justifyContent: "space-between",
+    flexDirection: 'row',
+    justifyContent: 'space-between',
     paddingTop: 20,
   },
   user_full_info_container: {
-    flexDirection: "column",
+    flexDirection: 'column',
     paddingTop: 15,
     paddingHorizontal: 15,
   },
   user_detail_item: {
-    flexDirection: "row",
-    alignItems: "center",
+    flexDirection: 'row',
+    alignItems: 'center',
     paddingVertical: 15,
-    color: "#777777",
+    color: '#777777',
   },
   icon: {
-    paddingRight: "4%",
+    paddingRight: '4%',
   },
   user_preferences: {
     margin: 10,
-    flexDirection: "column",
+    flexDirection: 'column',
     paddingTop: 15,
     paddingHorizontal: 15,
   },
   logout: {
-    flexDirection: "row",
-    alignItems: "center",
+    flexDirection: 'row',
+    alignItems: 'center',
     paddingVertical: 15,
-    flexDirection: "column",
+    flexDirection: 'column',
     paddingTop: 15,
     paddingHorizontal: 15,
   },
