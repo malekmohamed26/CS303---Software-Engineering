@@ -18,6 +18,11 @@ export const Navbar = () => {
     const handleProfilePress = () => {
         navigation.navigate('Profile');
     };
+  
+    /*const handleCartPage = () => {
+        navigation.navigate('CartPage');
+    }
+*/
     return (
 
         <View style={styles.container}>
@@ -33,9 +38,9 @@ export const Navbar = () => {
             <TouchableOpacity style={styles.specialIconContainer} onPress={handleHomePress} >
                 <Icon name="home" size={35} color="#f0e3e0" />
             </TouchableOpacity>
-            <TouchableOpacity style={styles.iconContainer}>
+           <TouchableOpacity style={styles.iconContainer} onPress >
                 <Icon name="shopping-cart" size={25} color="#a84221" />
-            </TouchableOpacity>
+            </TouchableOpacity> 
             <TouchableOpacity style={styles.iconContainer} onPress={handleProfilePress}>
                 <Icon name="user" size={25} color="#a84221" />
             </TouchableOpacity>

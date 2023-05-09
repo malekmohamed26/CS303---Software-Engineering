@@ -23,7 +23,8 @@ export default function SignUp({ navigation }) {
   const [passwordError, setPasswordError] = useState('');
   const [confirmPasswordError, setConfirmPasswordError] = useState('');
   const [phoneError, setPhoneError] = useState('');
-
+  const [Country , setCountry] = useState('');
+  const [DateOfBirth , setDateOfBirth] = useState('');
   const handleSignUp = () => {
     if (
       validateEmail(email) &&
@@ -95,6 +96,8 @@ export default function SignUp({ navigation }) {
       name: fullName,
       email: email,
       phone: phone,
+      country: Country ,
+      date : DateOfBirth ,
     });
   };
 
@@ -146,6 +149,20 @@ export default function SignUp({ navigation }) {
         onChangeText={setPhone}
       />
       {phoneError ? <Text style={styles.errorText}>{phoneError}</Text> : null}
+
+          <TextInput
+            style={[styles.input]}
+            placeholder="Country"
+            value={Country}
+            onChangeText={setCountry}
+          />
+
+          <TextInput
+            style={[styles.input]}
+            placeholder="DateOfBirth"
+            value={DateOfBirth}
+            onChangeText={setDateOfBirth}
+          />
 
       <TouchableOpacity onPress={handleSignUp} style={styles.button}>
         <Text style={styles.buttonText}>Sign Up</Text>

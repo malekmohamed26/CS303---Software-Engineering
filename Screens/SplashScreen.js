@@ -41,14 +41,6 @@ export default function Home({navigation}) {
           <Text style={styles.buttonText}>Get Started</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity
-          style={styles.button}
-          onPress={() => {
-            navigation.navigate("EditProfile");
-          }}
-        >
-          <Text style={styles.buttonText}>Edit Profile </Text>
-        </TouchableOpacity>
       </View>
     </View>
   );
@@ -110,3 +102,16 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
 });
+
+
+
+/*
+<TouchableOpacity
+          style={styles.button}
+          onPress={() => {
+            navigation.navigate("EditProfile");
+          }}
+        >
+          <Text style={styles.buttonText}>Edit Profile </Text>
+        </TouchableOpacity>
+*/

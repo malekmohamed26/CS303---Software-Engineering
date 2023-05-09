@@ -24,13 +24,30 @@ import * as Font from 'expo-font';
 import icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { getAuth, signOut } from 'firebase/auth';
 import { auth, db } from '../firebase';
-import { doc, getDoc } from 'firebase/firestore';import Navbar from "./Navbar";
+import { doc, getDoc } from 'firebase/firestore';
+import Navbar from '../components/Navbar';
 
 export default function Profile({ navigation }) {
   // add the use state to store profile data in it
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
+  const [country , setCountry] = useState('');
+  const [date , setDateOfBirth] = useState('');
+  const auth = getAuth();
+  //const auth = getAuth(); // de 5alt el mafrod auth tegy mn mlf firebase
+  const handleFavoritePress = () => {
+    navigation.navigate('Favorite');
+  };
+  const handleHomePress = () => {
+    navigation.navigate('BookHomePage');
+  };
+  const handleSearchPress = () => {
+    navigation.navigate('Search');
+  };
+  const handleProfilePress = () => {
+    navigation.navigate('Profile');
+  };
   // use effect 3ashan ngeb el data awl ma el saf7a tfta7
   useEffect(() => {
     getUserData();
@@ -38,7 +55,7 @@ export default function Profile({ navigation }) {
   //function to get data of user from fire store
   const getUserData = async () => {
     // el mfrod user de esm el data we bdl el id dh ykon auth.cuurentUser.uid
-    const docRef = doc(db, 'user', 'rzXhp9Da6UOU9gLtZzAqfMP4GHp1');
+    const docRef = doc(db, 'user', auth.currentUser.uid);
     const docSnap = await getDoc(docRef);
     if (docSnap.exists()) {
       const data = docSnap.data();
@@ -46,31 +63,19 @@ export default function Profile({ navigation }) {
       setEmail(data.email);
       setName(data.name);
       setPhone(data.phone);
-      
+      setCountry(data.country);
+      setDateOfBirth(data.date);
     } else {
       // docSnap.data() will be undefined in this case
       console.log('No such document!');
     }
   };
 
-  //const auth = getAuth(); // de 5alt el mafrod auth tegy mn mlf firebase
-  const handleFavoritePress = () => {
-    navigation.navigate("Favorite");
-  };
-  const handleHomePress = () => {
-    navigation.navigate("BookHomePage");
-  };
-  const handleSearchPress = () => {
-    navigation.navigate("Search");
-  };
-  const handleProfilePress = () => {
-    navigation.navigate("Profile");
-  };
   const handleSignOut = async () => {
     try {
       await signOut(auth);
-      console.log("logged out");
-      navigation.navigate("Home");
+      console.log('logged out');
+      navigation.navigate('Home');
     } catch (error) {
       console.error(error);
     }
@@ -118,7 +123,7 @@ export default function Profile({ navigation }) {
             <Caption
               style={{ textAlign: 'left', paddingLeft: 10, fontSize: 15 }}
             >
-              @{name}
+              @{name}205
             </Caption>
           </View>
 
@@ -160,12 +165,12 @@ export default function Profile({ navigation }) {
                 color: '#777777',
               }}
             >
-              Cairo, Egypt
+              {country}
             </Text>
           </View>
           <View style={styles.user_detail_item}>
             <Icon
-              name="calendar"
+              name="birthday-cake"
               size={20}
               color={'black'}
               style={styles.icon}
@@ -175,7 +180,7 @@ export default function Profile({ navigation }) {
                 color: '#777777',
               }}
             >
-              26 of June, 2000
+             {date}
             </Text>
           </View>
           <View style={styles.user_detail_item}>

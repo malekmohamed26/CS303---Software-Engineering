@@ -23,18 +23,18 @@ import BottomSheet from 'reanimated-bottom-sheet';
 import Animated from 'react-native-reanimated';
 import { getAuth, signOut } from 'firebase/auth';
 import { doc, updateDoc } from 'firebase/firestore';
+import Navbar from '../components/Navbar';
 export default function EditProfile({ navigation }) {
   // add the use state to store profile data in it
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
+  const [country , setCountry] = useState('');
+  const [date , setDateOfBirth] = useState('');
   const { colors } = useTheme();
   const [image, setImage] = useState(null);
-  const [dateOfBirth, setDateOfBirth] = useState('');
   const auth = getAuth();
   const [formReady, setFormReady] = useState(false);
-
-  const [date, setDate] = useState(new Date());
   const [showPicker, setShowPicker] = useState(false);
   const handleSignOut = async () => {
     try {
@@ -48,15 +48,20 @@ export default function EditProfile({ navigation }) {
   // function to get date
   const updateUserData = async () => {
     // nktb esm el data we el user id
-    const washingtonRef = doc(db, 'user', 'rzXhp9Da6UOU9gLtZzAqfMP4GHp1');
-    await updateDoc(washingtonRef, {
-      name: name,
-      phone: phone,
-      email: email,
-      
-    },console.log("done"));
+    const docRef = doc(db, 'user', auth.currentUser.uid);
+    await updateDoc(
+      docRef,
+      {
+        name: name,
+        phone: phone,
+        email: email,
+        country : country ,
+        date : date ,
+      },
+      console.log('done')
+    );
   };
-  const toggleDatepicker = () => {
+ /* const toggleDatepicker = () => {
     setShowPicker(!showPicker);
   };
   const onChange = ({ type }, selectedDate) => {
@@ -74,11 +79,11 @@ export default function EditProfile({ navigation }) {
   const confirmIOSDate = () => {
     setDateOfBirth(date.toDateString());
     toggleDatepicker();
-  };
+  };*/
 
   /*const onSubmit = () => {
    alert(`${dateOfBirth}`);
-  };*/
+  };
 
   useEffect(() => {
     setFormReady(dateOfBirth);
@@ -86,7 +91,7 @@ export default function EditProfile({ navigation }) {
       setFormReady(false);
     };
   }, [dateOfBirth]);
-
+*/
   const pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.All,
@@ -106,7 +111,9 @@ export default function EditProfile({ navigation }) {
         <TouchableOpacity onPress={handleSignOut}>
           <Icon name="power-off" size={20} color={'#a84221'} />
         </TouchableOpacity>
-        <Text style={{ fontSize: 20, fontWeight: 'bold' }}>Edit profile</Text>
+        <Text style={{ fontSize: 20, fontWeight: 'bold', color: 'dark gray' }}>
+          Edit profile
+        </Text>
 
         <TouchableOpacity
           onPress={() => {
@@ -153,7 +160,7 @@ export default function EditProfile({ navigation }) {
             </View>
           </TouchableOpacity>
           <Text style={{ marginTop: 10, fontSize: 18, fontWeight: 'bold' }}>
-            Manar Ashraf{' '}
+            {name}
           </Text>
         </View>
 
@@ -176,62 +183,7 @@ export default function EditProfile({ navigation }) {
             style={styles.textInput}
           />
         </View>
-        <View style={styles.action}>
-          {showPicker && (
-            <DateTimePicker
-              mode="calender"
-              display="spinner"
-              value={date}
-              onChange={onChange}
-              style={styles.datePicker}
-            />
-          )}
-          {showPicker && Platform.OS === 'ios' && (
-            <View
-              style={{ flexDirection: 'row', justifyContent: 'space-around' }}
-            >
-              <TouchableOpacity
-                style={[
-                  styles.button,
-                  styles.pickerButton,
-                  { backgroundColor: '#666666' },
-                ]}
-                onPress={toggleDatepicker}
-              >
-                <Text style={[styles.buttonText, { color: '#666666' }]}>
-                  Cancel
-                </Text>
-              </TouchableOpacity>
-
-              <TouchableOpacity
-                style={[
-                  styles.button,
-                  styles.pickerButton,
-                  { backgroundColor: '#666666' },
-                ]}
-                onPress={confirmIOSDate}
-              >
-                <Text style={[styles.buttonText, { color: '#666666' }]}>
-                  Confirm
-                </Text>
-              </TouchableOpacity>
-            </View>
-          )}
-
-          {!showPicker && (
-            <Pressable onPress={toggleDatepicker}>
-              <TextInput
-                style={styles.textInput}
-                placeholder=" Date : Sat Aug 21 2004 "
-                placeholderTextColor="#666666"
-                value={dateOfBirth}
-                onChangeText={setDateOfBirth}
-                editable={false}
-                onPressIn={toggleDatepicker}
-              />
-            </Pressable>
-          )}
-        </View>
+      
 
         <View style={styles.action}>
           <FontAwesome name="phone" color={colors.text} size={20} />
@@ -260,21 +212,43 @@ export default function EditProfile({ navigation }) {
             placeholder="Country"
             placeholderTextColor="#666666"
             autoCorrect={false}
-            style={styles.textInput}
+            style={setCountry}
           />
         </View>
+
+        <View style={styles.action}>
+          <FontAwesome name="birthday-cake" color={colors.text} size={20} />
+          <TextInput
+            placeholder="Date Of Birth"
+            placeholderTextColor="#666666"
+            autoCorrect={false}
+            style={setDateOfBirth}
+           
+          />
+        </View>
+
         {!(
           (email.trim() === '') &
           (phone.trim() === '') &
-          (name.trim() === '')
+          (name.trim() === '') &
+          (country.trim() === '') &
+          (date.trim() === '') 
         ) ? (
           // lw el data msh fadya hy3adlha fe el firestore
-          <TouchableOpacity style={styles.commandButton} onPress={updateUserData}>
+          <TouchableOpacity
+            style={styles.commandButton}
+            onPress={updateUserData}
+          >
             <Text style={styles.panelButtonTitle}> Save </Text>
           </TouchableOpacity>
         ) : (
           // lw md5lsh data msh hy3ml 7aga
-          <TouchableOpacity style={styles.commandButton} onPress={() => {console.log("no date")}}>
+          <TouchableOpacity
+            style={styles.commandButton}
+            onPress={() => {
+              console.log('no data');
+            }}
+          >
             <Text style={styles.panelButtonTitle}> Save </Text>
           </TouchableOpacity>
         )}
@@ -306,7 +280,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   commandButton: {
-    backgroundColor: 'gray',
+    backgroundColor: '#a84221',
     paddingHorizontal: 40,
     paddingVertical: 10,
     borderRadius: 20,
@@ -373,3 +347,63 @@ const styles = StyleSheet.create({
     color: '#fff',
   },
 });
+
+
+/*
+ <View style={styles.action}>
+          {showPicker && (
+            <DateTimePicker
+              mode="calender"
+              display="spinner"
+              value={date}
+              onChange={onChange}
+              style={styles.datePicker}
+            />
+          )}
+          {showPicker && Platform.OS === 'ios' && (
+            <View
+              style={{ flexDirection: 'row', justifyContent: 'space-around' }}
+            >
+              <TouchableOpacity
+                style={[
+                  styles.button,
+                  styles.pickerButton,
+                  { backgroundColor: '#666666' },
+                ]}
+                onPress={toggleDatepicker}
+              >
+                <Text style={[styles.buttonText, { color: '#666666' }]}>
+                  Cancel
+                </Text>
+              </TouchableOpacity>
+
+              <TouchableOpacity
+                style={[
+                  styles.button,
+                  styles.pickerButton,
+                  { backgroundColor: '#666666' },
+                ]}
+                onPress={confirmIOSDate}
+              >
+                <Text style={[styles.buttonText, { color: '#666666' }]}>
+                  Confirm
+                </Text>
+              </TouchableOpacity>
+            </View>
+          )}
+
+          {!showPicker && (
+            <Pressable onPress={toggleDatepicker}>
+              <TextInput
+                style={styles.textInput}
+                placeholder=" Date : Sat Aug 21 2004 "
+                placeholderTextColor="#666666"
+                value={dateOfBirth}
+                onChangeText={setDateOfBirth}
+                editable={false}
+                onPressIn={toggleDatepicker}
+              />
+            </Pressable>
+          )}
+        </View>
+*/

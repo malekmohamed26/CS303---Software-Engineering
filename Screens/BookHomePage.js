@@ -10,7 +10,7 @@ import {
 import { Card, Button, Icon } from "react-native-elements";
 import * as Font from "expo-font";
 import { useNavigation } from "@react-navigation/native";
-import Navbar from "./Navbar";
+import Navbar from "../components/Navbar";
 
 
 const BookHomePage = ({ kotob }) => {
@@ -84,6 +84,7 @@ const BookHomePage = ({ kotob }) => {
 };
 
 const renderItem = ({ item }) => <BookHomePage kotob={item} />;
+
 
 const BookItems = ({ navigation, data }) => {
   const handleFavoritePress = () => {
@@ -166,10 +167,10 @@ const styles = StyleSheet.create({
   },
   cardButtonStyle: {
     borderWidth: 1,
-    borderColor: "#517fa4",
+    borderColor: "black",
   },
   cardButtonTitle: {
-    color: "#517fa4",
+    color: "black",
     fontSize: 14,
     fontWeight: "bold",
   },
