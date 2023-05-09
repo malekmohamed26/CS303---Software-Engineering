@@ -10,7 +10,7 @@ import {
 import { Card, Button, Icon } from "react-native-elements";
 import * as Font from "expo-font";
 import { useNavigation } from "@react-navigation/native";
-import Navbar from "./Navbar";
+import Navbar from "../components/Navbar";
 
 const BookHomePage = ({ kotob }) => {
   const navigation = useNavigation();
@@ -54,7 +54,15 @@ const BookHomePage = ({ kotob }) => {
             buttonStyle={styles.cardButtonStyle}
             titleStyle={styles.cardButtonTitle}
             onPress={() => {
-              setCartItems([...cartItems, kotob]);
+              setCartItems([
+                ...cartItems,
+                {
+                  id: kotob.id,
+                  author: kotob.author,
+                  title: kotob.title,
+                  price: kotob.price,
+                },
+              ]);
               console.log("Added to cart");
             }}
             title={` (${cartCount})`}
@@ -66,6 +74,16 @@ const BookHomePage = ({ kotob }) => {
             buttonStyle={styles.cardButtonStyle}
             titleStyle={styles.cardButtonTitle}
             onPress={() => console.log("Added to favorites")}
+          />
+          <Button
+            type="outline"
+            icon={
+              <Icon name="shopping-cart" type="font-awesome" color="#a84221" />
+            }
+            containerStyle={styles.cardButtonContainer}
+            buttonStyle={styles.cardButtonStyle}
+            titleStyle={styles.cardButtonTitle}
+            onPress={() => navigation.navigate("CartPage", { cartItems })}
           />
         </View>
       </Card>
@@ -88,6 +106,9 @@ const BookItems = ({ navigation, data }) => {
   const handleProfilePress = () => {
     console.log("Function call from Navbar");
   };
+  const handleCartPress = () => {
+    console.log("Function call from Navbar");
+  };
   return (
     <View style={styles.container}>
       <Text style={styles.header}>What do you like to read today?</Text>
@@ -101,19 +122,19 @@ const BookItems = ({ navigation, data }) => {
       <Navbar onButtonPress={handleHomePress} />
       <Navbar onButtonPress={handleSearchPress} />
       <Navbar onButtonPress={handleProfilePress} />
+      <Navbar onButtonPress={handleCartPress} />
     </View>
   );
 };
 
 export default BookItems;
 
-
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#f0e3e0",
     paddingHorizontal: 20,
+    paddingTop: 40,
   },
   header: {
     fontFamily: "my-custom-font",
@@ -156,10 +177,10 @@ const styles = StyleSheet.create({
   },
   cardButtonStyle: {
     borderWidth: 1,
-    borderColor: "#517fa4",
+    borderColor: "black",
   },
   cardButtonTitle: {
-    color: "#517fa4",
+    color: "black",
     fontSize: 14,
     fontWeight: "bold",
   },

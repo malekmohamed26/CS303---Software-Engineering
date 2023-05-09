@@ -1,12 +1,10 @@
-import React, { useState, useEffect } from 'react';
-import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
-import * as Font from 'expo-font';
-import { useNavigation } from '@react-navigation/native';
-import myImage from '../images/test1.png';
+import React, { useState, useEffect } from "react";
+import { StyleSheet, Text, View, Image, TouchableOpacity } from "react-native";
+import * as Font from "expo-font";
+import { useNavigation } from "@react-navigation/native";
+import myImage from "../images/test1.png";
 
-
-export default function Home({navigation}) {
-
+export default function Home({ navigation }) {
   const [fontLoaded, setFontLoaded] = useState(false);
   useEffect(() => {
     async function loadFont() {
@@ -39,15 +37,6 @@ export default function Home({navigation}) {
           }}
         >
           <Text style={styles.buttonText}>Get Started</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity
-          style={styles.button}
-          onPress={() => {
-            navigation.navigate("EditProfile");
-          }}
-        >
-          <Text style={styles.buttonText}>Edit Profile </Text>
         </TouchableOpacity>
       </View>
     </View>

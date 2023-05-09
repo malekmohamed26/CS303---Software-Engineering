@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   StyleSheet,
   View,
@@ -23,22 +23,57 @@ import MaterialIcon from "react-native-vector-icons/MaterialIcons";
 import * as Font from "expo-font";
 import icon from "react-native-vector-icons/MaterialCommunityIcons";
 import { getAuth, signOut } from "firebase/auth";
-import Navbar from "./Navbar";
+import { auth, db } from "../firebase";
+import { doc, getDoc } from "firebase/firestore";
+import Navbar from "../components/Navbar";
 
 export default function Profile({ navigation }) {
+  // add the use state to store profile data in it
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
+  const [country, setCountry] = useState("");
+  const [date, setDateOfBirth] = useState("");
   const auth = getAuth();
+  //const auth = getAuth(); // de 5alt el mafrod auth tegy mn mlf firebase
   const handleFavoritePress = () => {
-    navigation.navigate("Favorite");
+    console.log("Function call from Navbar");
   };
   const handleHomePress = () => {
-    navigation.navigate("BookHomePage");
+    console.log("Function call from Navbar");
   };
   const handleSearchPress = () => {
-    navigation.navigate("Search");
+    console.log("Function call from Navbar");
   };
   const handleProfilePress = () => {
-    navigation.navigate("Profile");
+    console.log("Function call from Navbar");
   };
+  const handleCartPress = () => {
+    console.log("Function call from Navbar");
+  };
+  // use effect 3ashan ngeb el data awl ma el saf7a tfta7
+  useEffect(() => {
+    getUserData();
+  });
+  //function to get data of user from fire store
+  const getUserData = async () => {
+    // el mfrod user de esm el data we bdl el id dh ykon auth.cuurentUser.uid
+    const docRef = doc(db, "user", auth.currentUser.uid);
+    const docSnap = await getDoc(docRef);
+    if (docSnap.exists()) {
+      const data = docSnap.data();
+      //n5zn el data fe el state
+      setEmail(data.email);
+      setName(data.name);
+      setPhone(data.phone);
+      setCountry(data.country);
+      setDateOfBirth(data.date);
+    } else {
+      // docSnap.data() will be undefined in this case
+      console.log("No such document!");
+    }
+  };
+
   const handleSignOut = async () => {
     try {
       await signOut(auth);
@@ -48,12 +83,14 @@ export default function Profile({ navigation }) {
       console.error(error);
     }
   };
+
   return (
     <View style={styles.container}>
       <Navbar onButtonPress={handleFavoritePress} />
       <Navbar onButtonPress={handleHomePress} />
       <Navbar onButtonPress={handleSearchPress} />
       <Navbar onButtonPress={handleProfilePress} />
+      <Navbar onButtonPress={handleCartPress} />
       <View style={styles.my_profile_bar}>
         <TouchableOpacity onPress={handleSignOut}>
           <Icon name="power-off" size={20} color={"#a84221"} />
@@ -85,12 +122,12 @@ export default function Profile({ navigation }) {
                 textAlign: "left",
               }}
             >
-              Malek Mohamed
+              {name}
             </Text>
             <Caption
               style={{ textAlign: "left", paddingLeft: 10, fontSize: 15 }}
             >
-              @malek26
+              @{name}205
             </Caption>
           </View>
 
@@ -117,7 +154,7 @@ export default function Profile({ navigation }) {
                 color: "#777777",
               }}
             >
-              malekmohamed234@gmail.com
+              {email}
             </Text>
           </View>
           <View style={styles.user_detail_item}>
@@ -132,12 +169,12 @@ export default function Profile({ navigation }) {
                 color: "#777777",
               }}
             >
-              Cairo, Egypt
+              {country}
             </Text>
           </View>
           <View style={styles.user_detail_item}>
             <Icon
-              name="calendar"
+              name="birthday-cake"
               size={20}
               color={"black"}
               style={styles.icon}
@@ -147,7 +184,7 @@ export default function Profile({ navigation }) {
                 color: "#777777",
               }}
             >
-              26 of June, 2000
+              {date}
             </Text>
           </View>
           <View style={styles.user_detail_item}>
@@ -157,7 +194,7 @@ export default function Profile({ navigation }) {
                 color: "#777777",
               }}
             >
-              01011302148
+              {phone}
             </Text>
           </View>
         </View>

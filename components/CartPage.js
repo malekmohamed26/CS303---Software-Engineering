@@ -1,8 +1,14 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, FlatList, StyleSheet, TouchableOpacity} from 'react-native';
+import {
+  View,
+  Text,
+  FlatList,
+  StyleSheet,
+  TouchableOpacity,
+} from "react-native";
 import * as Font from "expo-font";
 
-const CartPage = ({ route,navigation }) => {
+const CartPage = ({ route, navigation }) => {
   const { cartItems } = route.params;
   const totalPrice = cartItems.reduce((acc, item) => acc + item.price, 0);
   const [fontLoaded, setFontLoaded] = useState(false);
@@ -25,7 +31,8 @@ const CartPage = ({ route,navigation }) => {
       <View style={styles.header}>
         <Text style={styles.headerTitle}>Your Cart</Text>
         <Text style={styles.headerSubTitle}>
-          {cartItems.length} item{cartItems.length !== 1 ? 's' : ''} in your cart
+          {cartItems.length} item{cartItems.length !== 1 ? "s" : ""} in your
+          cart
         </Text>
       </View>
       <FlatList
@@ -43,12 +50,12 @@ const CartPage = ({ route,navigation }) => {
         <Text style={styles.totalPriceTitle}>Total Price:</Text>
         <Text style={styles.totalPrice}>${totalPrice.toFixed(2)}</Text>
         <View style={styles.checkoutButton}>
-  
-  <TouchableOpacity onPress={() => navigation.navigate('ShippingInfoPage')}>
-    <Text style={styles.checkoutButtonText}>Checkout</Text>
-  </TouchableOpacity>
-</View>
-
+          <TouchableOpacity
+            onPress={() => navigation.navigate("ShippingInfoPage")}
+          >
+            <Text style={styles.checkoutButtonText}>Checkout</Text>
+          </TouchableOpacity>
+        </View>
       </View>
     </View>
   );
@@ -66,71 +73,69 @@ const styles = StyleSheet.create({
   },
   headerTitle: {
     fontSize: 24,
-    fontWeight: 'bold',
-    color: '#333',
-    fontFamily:'my-custom-font'
+    fontWeight: "bold",
+    color: "#333",
+    fontFamily: "my-custom-font",
   },
   headerSubTitle: {
     fontSize: 16,
-    color: '#999',
+    color: "#999",
     marginTop: 5,
   },
   cartItem: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    backgroundColor: '#f7f7f7',
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    backgroundColor: "#f7f7f7",
     padding: 15,
     borderRadius: 5,
     marginBottom: 10,
   },
   cartItemTitle: {
     fontSize: 18,
-    fontWeight: 'bold',
-    color: '#333',
+    fontWeight: "bold",
+    color: "#333",
   },
   cartItemAuthor: {
     fontSize: 14,
-    color: '#999',
+    color: "#999",
     marginTop: 5,
   },
   cartItemPrice: {
     fontSize: 20,
-    fontWeight: 'bold',
-    color: '#333',
+    fontWeight: "bold",
+    color: "#333",
   },
   footer: {
     borderTopWidth: 1,
-    borderTopColor: '#eee',
+    borderTopColor: "#eee",
     paddingTop: 15,
     marginTop: 10,
   },
   totalPriceTitle: {
     fontSize: 16,
-    fontWeight: 'bold',
-    color: '#333',
+    fontWeight: "bold",
+    color: "#333",
     marginBottom: 5,
   },
   totalPrice: {
     fontSize: 24,
-    fontWeight: 'bold',
-    color: '#333',
+    fontWeight: "bold",
+    color: "#333",
     marginBottom: 15,
   },
   checkoutButton: {
-    backgroundColor: '#b89076',
+    backgroundColor: "#b89076",
     paddingVertical: 10,
     paddingHorizontal: 20,
     borderRadius: 5,
   },
   checkoutButtonText: {
-    color: '#fff',
+    color: "#fff",
     fontSize: 18,
-    fontWeight: 'bold',
-    textAlign: 'center',
+    fontWeight: "bold",
+    textAlign: "center",
   },
 });
-
-
 
 export default CartPage;

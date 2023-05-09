@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "my-app",
+    "name": "Bookotopia",
     "slug": "my-app",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -12,9 +12,7 @@
       "backgroundColor": "#ffffff"
     },
     "assetBundlePatterns": [
-      
-        "fonts/Lobster/*"
-      
+      "fonts/Lobster/*"
     ],
     "ios": {
       "supportsTablet": true
@@ -23,10 +21,16 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.malekmohamed26.myapp"
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "569b98c5-a550-4790-9d6c-d1119ce7c948"
+      }
     }
   }
 }

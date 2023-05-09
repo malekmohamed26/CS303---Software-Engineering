@@ -166,13 +166,13 @@ export default function Login({ navigation }) {
           onChangeText={setPassword}
         />
         <TouchableOpacity
-          style={{ position: "absolute", right: 10, top: 10 }}
+          style={{ position: "absolute", right: 10, top: 16 }}
           onPress={togglePasswordVisibility}
         >
           <Icon
             name={isPasswordVisible ? "eye" : "eye-slash"}
             size={20}
-            color="#f0e3e0"
+            color="#black"
           />
         </TouchableOpacity>
       </View>
@@ -220,6 +220,8 @@ export default function Login({ navigation }) {
               style={{
                 width: 20,
                 height: 20,
+                top: 2,
+                right: 10,
                 tintColor: "white",
               }}
               source={{
@@ -238,6 +240,8 @@ export default function Login({ navigation }) {
               style={{
                 width: 20,
                 height: 20,
+                top: 2,
+                right: 10,
                 tintColor: "white",
               }}
               source={{
@@ -269,9 +273,11 @@ export default function Login({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    width: "100%",
     backgroundColor: "#f0e3e0",
     alignItems: "center",
     justifyContent: "center",
+    height: 60,
   },
   bookImage: {
     width: 150,
@@ -293,11 +299,12 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     paddingHorizontal: 20,
     marginBottom: 20,
+    height: 45,
   },
   password_input: {
     height: 40,
-    fontSize: 16,
-    paddingLeft: 10,
+    fontSize: 14,
+    paddingLeft: 1,
   },
   forgotPasswordButton: {
     marginTop: 10,

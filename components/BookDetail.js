@@ -3,25 +3,11 @@ import { View, Text, Image, StyleSheet } from "react-native";
 import { Card, Button, Icon } from "react-native-elements";
 import * as Font from "expo-font";
 import Navbar from "./Navbar";
-
 const BookDetail = ({ route }) => {
   const [cartItems, setCartItems] = useState([]);
   const cartCount = cartItems.length;
   const { kotob } = route.params;
   const [fontLoaded, setFontLoaded] = useState(false);
-
-  const handleFavoritePress = () => {
-    navigation.navigate("Favorite");
-  };
-  const handleHomePress = () => {
-    navigation.navigate("BookHomePage");
-  };
-  const handleSearchPress = () => {
-    navigation.navigate("Search");
-  };
-  const handleProfilePress = () => {
-    navigation.navigate("Profile");
-  };
   useEffect(() => {
     async function loadFont() {
       await Font.loadAsync({
@@ -38,10 +24,6 @@ const BookDetail = ({ route }) => {
   }
   return (
     <View style={styles.container}>
-      <Navbar onButtonPress={handleFavoritePress} />
-      <Navbar onButtonPress={handleHomePress} />
-      <Navbar onButtonPress={handleSearchPress} />
-      <Navbar onButtonPress={handleProfilePress} />
       <Image source={kotob.image} style={styles.image} />
       <View style={styles.detailsContainer}>
         <Text style={styles.title}>{kotob.title}</Text>
