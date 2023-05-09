@@ -27,7 +27,7 @@ export default function App() {
           gestureDirection: "horizontal",
         }}
       >
-        <Stack.Screen
+          <Stack.Screen
           name="Home"
           component={Home}
           options={{ headerShown: false }}
@@ -60,7 +60,7 @@ export default function App() {
           component={EditProfile}
           options={{ headerShown: false }}
         />
-        <Stack.Screen
+         <Stack.Screen
           name="ForgotPassword"
           component={ForgotPassword}
           options={{ headerShown: false }}

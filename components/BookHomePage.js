@@ -107,6 +107,8 @@ const BookItems = ({ navigation, data }) => {
 
 export default BookItems;
 
+
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,

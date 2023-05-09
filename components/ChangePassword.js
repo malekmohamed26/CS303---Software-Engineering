@@ -63,25 +63,6 @@ export default function ChangePassword() {
   
     return (
       <View style={styles.container}>
-         <View style={styles.my_profile_bar}>
-        <TouchableOpacity
-         onPress={() => {
-          navigation.navigate("Profile");
-          }}
-          
-        >
-         <Text > Cancle </Text>
-        </TouchableOpacity>
-        <Text style={{ fontSize: 20, fontWeight: "bold" }}>Change Password</Text>
-
-        <TouchableOpacity
-          onPress={() => {
-            navigation.navigate("Profile");
-          }}
-        >
-          <Icon name="chevron-right" size={20} color={"#a84221"} />
-        </TouchableOpacity>
-      </View>
         <Image source={myImage} style={styles.bookImage} />
         <TextInput
           style={styles.input}
@@ -120,94 +101,94 @@ export default function ChangePassword() {
             >
               <Text style={styles.resetPasswordButtonText}>Confirm changes</Text>
             </TouchableOpacity>
+            <TouchableOpacity
+          onPress={() => {
+            navigation.navigate("Profile");
+          }}
+          style={styles.cancelButton}
+        >
+          <Text style={styles.cancelButtonText}>Cancel</Text>
+        </TouchableOpacity>
           </View>
         ) : null}
         <StatusBar style="auto" />
       </View>
     );
-  }
-
-
-  const styles = StyleSheet.create({
-    container: {
-      flex: 1,
-      backgroundColor: '#f0e3e0',
-      alignItems: 'center',
-      justifyContent: 'center',
-    },
-    my_profile_bar: {
-        flexDirection: "row",
-        justifyContent: "space-between",
-        alignItems: "center",
-        borderBottomWidth: 1,
-        borderBottomColor: "#a84221",
-        paddingTop: 40,
-        paddingBottom: 10,
-        paddingHorizontal: 15,
-        marginLeft:-35
-      },
-      my_profile_text: {
-        fontSize: 20,
-        fontWeight: "bold",
-        textAlign: "center",
+        }
+    const styles = StyleSheet.create({
+      container: {
         flex: 1,
+        backgroundColor: '#f0e3e0',
+        alignItems: 'center',
+        justifyContent: 'center',
       },
-      icon: {
-        paddingRight: "4%",
+      bookImage: {
+        width: 150,
+        height: 150,
+        marginBottom: 20,
       },
-    bookImage: {
-      width: 150,
-      height: 150,
-      marginBottom: 20,
-    },
-    input: {
-      width: '80%',
-      backgroundColor: '#FFF',
-      borderRadius: 10,
-      paddingVertical: 10,
-      paddingHorizontal: 20,
-      marginBottom: 20,
-    },
-resetPasswordButtonR:{
-    backgroundColor: '#fff',
-    paddingHorizontal: 40,
-    paddingVertical: 10,
-    borderRadius: 20,
-    marginTop: 20,
-    marginBottom:30,
-    paddingBottom:10
-},
-    resetPasswordButton: {
-      backgroundColor: '#fff',
-      paddingHorizontal: 40,
-      paddingVertical: 10,
-      borderRadius: 20,
-      marginTop: 20,
-      paddingBottom:20
-    },
-    resetPasswordButtonText: {
-      backgroundColor: '#fff',
-      fontSize: 18,
-      fontWeight: 'bold',
-    },
-    errorMessage: {
-      color: 'red',
-      marginBottom: 16,
-      fontSize: 18,
-      fontWeight: 'bold',
-    },
-    successMessage: {
-      color: '#a84221',
-      marginBottom: 16,
-      fontSize: 18,
-      fontWeight: 'bold',
-    },
-    formContainer: {
-      alignItems: 'center',
-      justifyContent: 'center',
-      marginTop: 20,
-      paddingBottom: 20,
-     
-    },
-  });
+      input: {
+        width: '80%',
+        backgroundColor: '#FFF',
+        borderRadius: 10,
+        paddingVertical: 10,
+        paddingHorizontal: 20,
+        marginBottom: 20,
+      },
+      resetPasswordButtonR: {
+        backgroundColor: '#fff',
+        paddingHorizontal: 40,
+        paddingVertical: 10,
+        borderRadius: 20,
+        marginTop: 20,
+        marginBottom: 30,
+        paddingBottom: 10,
+      },
+      resetPasswordButton: {
+        backgroundColor: '#fff',
+        paddingHorizontal: 40,
+        paddingVertical: 10,
+        borderRadius: 20,
+        marginTop: 20,
+        paddingBottom: 20,
+      },
+      resetPasswordButtonText: {
+        backgroundColor: '#fff',
+        fontSize: 18,
+        fontWeight: 'bold',
+      },
+      errorMessage: {
+        color: 'red',
+        marginBottom: 16,
+        fontSize: 18,
+        fontWeight: 'bold',
+      },
+      successMessage: {
+        color: '#a84221',
+        marginBottom: 16,
+        fontSize: 18,
+        fontWeight: 'bold',
+      },
+      formContainer: {
+        alignItems: 'center',
+        justifyContent: 'center',
+        marginTop: 20,
+        paddingBottom: 20,
+        marginLeft:50,
+      },
+      cancelButton: {
+        backgroundColor: '#f0e3e0',
+        paddingHorizontal: 40,
+        paddingVertical: 10,
+        borderRadius: 20,
+        marginTop: 10,
+        marginLeft: 50,
+      },
+      cancelButtonText: {
+        backgroundColor: '#f0e3e0',
+        fontSize: 18,
+        fontWeight: 'bold',
+        color: 'gray',
+      },
+    });
   

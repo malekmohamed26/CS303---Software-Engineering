@@ -36,7 +36,6 @@ const BookDetail = ({ route }) => {
   if (!fontLoaded) {
     return null;
   }
-
   return (
     <View style={styles.container}>
       <Navbar onButtonPress={handleFavoritePress} />
