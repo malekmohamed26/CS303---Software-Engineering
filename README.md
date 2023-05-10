@@ -12,6 +12,6 @@
 </h3>
 
 <h3>APK link (older build until building latest version) : </h3>
-<a href="https://expo.dev/accounts/malekmohamed26/projects/bookStore/builds/1da48fce-6049-42d6-b409-8077de346250">
+<a href="https://expo.dev/accounts/malekmohamed26/projects/bookStore/builds/1da48fce-6049-42d6-b409-8077de346250" target="_blank">
   <p>expo.dev</p>
 </a>
